@@ -13,4 +13,9 @@ class AdminAuthController extends Controller
     {
         return view('admin.auth.login');
     }
+
+    public function forgotpassword()
+    {
+        dd(1111);
+    }
 }
