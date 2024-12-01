@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/fontawesome/css/all.min.css') }}">
 
   <link rel="stylesheet" href="{{ asset('admin/assets/css/toastr.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/css/bootstrap-iconpicker.css') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
 
 
@@ -58,6 +59,8 @@
   <script src="{{ asset('/admin/assets/js/stisla.js') }}"></script>
 
   <script src="{{ asset('/admin/assets/js/toastr.min.js') }}"></script>
+
+  <script src="{{ asset('/admin/assets/js/bootstrap-iconpicker.bundle.min.js') }}"></script>
 
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
