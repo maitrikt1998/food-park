@@ -20,12 +20,11 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call(UserSeeder::class);
-
-        \App\Models\Slider::factory(5)->create();
-
         $this->call(WhyChooseUsTitleSeeder::class);
-
+        \App\Models\Slider::factory(5)->create();
         \App\Models\WhyChooseUs::factory(5)->create();
+        $this->call(CategorySeeder::class);
+        \App\Models\Product::factory(10)->create();
 
     }
 }

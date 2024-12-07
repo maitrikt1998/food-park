@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\WhyChooseUs;
+use App\Models\Product;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class WhyChooseUsDataTable extends DataTable
+class ProductDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,29 +22,14 @@ class WhyChooseUsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($query){
-                $edit = "<a href='".route('admin.why-choose-us.edit',$query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
-                $delete = "<a href='".route('admin.why-choose-us.destroy',$query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
-                return $edit.$delete;
-            })
-            ->addColumn('icon', function($query){
-                return "<i style='font-size: 50px;' class='".$query->icon."'></i>";
-            })
-            ->addColumn('status',function($query){
-                if($query->status === 1){
-                    return '<span class="badge badge-primary">Active</span>';
-                }else{
-                    return '<span class="badge badge-danger">InActive</span>';
-                }
-            })
-            ->rawColumns(['icon','action', 'status'])
+            ->addColumn('action', 'product.action')
             ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(WhyChooseUs $model): QueryBuilder
+    public function query(Product $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -55,11 +40,11 @@ class WhyChooseUsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('whychooseus-table')
+                    ->setTableId('product-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0, 'asc')
+                    ->orderBy(1)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -77,15 +62,15 @@ class WhyChooseUsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('icon'),
-            Column::make('title'),
-            Column::make('status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
-                  ->width(150)
+                  ->width(60)
                   ->addClass('text-center'),
+            Column::make('id'),
+            Column::make('add your columns'),
+            Column::make('created_at'),
+            Column::make('updated_at'),
         ];
     }
 
@@ -94,6 +79,6 @@ class WhyChooseUsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'WhyChooseUs_' . date('YmdHis');
+        return 'Product_' . date('YmdHis');
     }
 }

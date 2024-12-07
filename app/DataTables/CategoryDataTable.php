@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\WhyChooseUs;
+use App\Models\Category;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class WhyChooseUsDataTable extends DataTable
+class CategoryDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -22,29 +22,32 @@ class WhyChooseUsDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', function($query){
-                $edit = "<a href='".route('admin.why-choose-us.edit',$query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
-                $delete = "<a href='".route('admin.why-choose-us.destroy',$query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
-                return $edit.$delete;
-            })
-            ->addColumn('icon', function($query){
-                return "<i style='font-size: 50px;' class='".$query->icon."'></i>";
-            })
-            ->addColumn('status',function($query){
-                if($query->status === 1){
-                    return '<span class="badge badge-primary">Active</span>';
-                }else{
-                    return '<span class="badge badge-danger">InActive</span>';
-                }
-            })
-            ->rawColumns(['icon','action', 'status'])
-            ->setRowId('id');
+        ->addColumn('action', function($query){
+            $edit = "<a href='".route('admin.category.edit',$query->id)."' class='btn btn-primary'><i class='fas fa-edit'></i></a>";
+            $delete = "<a href='".route('admin.category.destroy',$query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+
+            return $edit.$delete;
+        })->addColumn('status',function($query){
+            if($query->status === 1){
+                return '<span class="badge badge-primary">Active</span>';
+            }else{
+                return '<span class="badge badge-danger">Inactive</span>';
+            }
+        })->addColumn('show_at_home',function($query){
+            if($query->show_at_home === 1){
+                return '<span class="badge badge-primary">Yes</span>';
+            }else{
+                return '<span class="badge badge-danger">No</span>';
+            }
+        })
+        ->rawColumns(['action','status','show_at_home'])
+        ->setRowId('id');
     }
 
     /**
      * Get the query source of dataTable.
      */
-    public function query(WhyChooseUs $model): QueryBuilder
+    public function query(Category $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -55,11 +58,11 @@ class WhyChooseUsDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('whychooseus-table')
+                    ->setTableId('category-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(0, 'asc')
+                    ->orderBy(0,'desc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -77,15 +80,17 @@ class WhyChooseUsDataTable extends DataTable
     public function getColumns(): array
     {
         return [
+
             Column::make('id'),
-            Column::make('icon'),
-            Column::make('title'),
+            Column::make('name'),
+            Column::make('show_at_home'),
             Column::make('status'),
             Column::computed('action')
                   ->exportable(false)
                   ->printable(false)
                   ->width(150)
                   ->addClass('text-center'),
+
         ];
     }
 
@@ -94,6 +99,6 @@ class WhyChooseUsDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'WhyChooseUs_' . date('YmdHis');
+        return 'Category_' . date('YmdHis');
     }
 }
