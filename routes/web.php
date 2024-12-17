@@ -23,8 +23,6 @@ Route::group(['middleware'=>'guest'],function(){
     Route::get('admin/forgot-password',[AdminAuthController::class,'forgotpassword'])->name('admin.forget-password');
 });
 
-Route::get('/', [FrontendController::class, 'index'])->name('home');
-
 Route::group(['middleware' => 'auth'], function () {
    Route::get('/dashboard' ,[DashboardController::class , 'index'])->name('dashboard');
    Route::put('/profile',[ProfileController::class,'updateProfile'])->name('profile.update');
@@ -33,3 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 require __DIR__.'/auth.php';
+/** Show Home page */
+Route::get('/', [FrontendController::class, 'index'])->name('home');
+
+/** Show Product detail page */
+Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
+
