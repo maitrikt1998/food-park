@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Slider;
+use App\Models\Product;
 use App\Models\SectionTitle;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
@@ -35,8 +36,9 @@ class FrontendController extends Controller
         return SectionTitle::whereIn('key',$keys)->pluck('value','key');
     }
 
-    function showProduct() : View
+    function showProduct(string $slug) : View
     {
-        return view('frontend.pages.product-view');
+        $product = Product::with(['productImages', 'productSize', 'productOption'])->where(['slug' => $slug, 'status' => 1])->firstOrFail();
+        return view('frontend.pages.product-view',compact('product'));
     }
 }

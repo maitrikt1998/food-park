@@ -21,7 +21,7 @@ class ProductSizeController extends Controller
         $product = Product::findOrFail($productId);
         $sizes = ProductSize::where('product_id',$product->id)->get();
         $options = ProductOption::where('product_id',$product->id)->get();
-        return view('admin.product-size.index',compact('product','sizes','options'));
+        return view('admin.product.product-size.index',compact('product','sizes','options'));
     }
 
     /**
@@ -43,6 +43,7 @@ class ProductSizeController extends Controller
         ]);
 
         $size = new ProductSize();
+        $size->product_id = $request->product_id;
         $size->name = $request->name;
         $size->price = $request->price;
         $size->save();
