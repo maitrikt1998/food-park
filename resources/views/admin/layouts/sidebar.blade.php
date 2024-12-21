@@ -67,6 +67,9 @@
                 </ul>
             </li>
 
+            <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i> <span>Settings</span></a></li>
+
+
             {{-- <li class=active><a class="nav-link" href="index-0.html"><i class="fas fa-fire"></i>General Dashboard</a>
             </li>
 
