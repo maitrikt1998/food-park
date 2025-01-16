@@ -1,5 +1,6 @@
 <?php
 
+Use Cart;
 
 
 /** create unique slug */
@@ -34,6 +35,25 @@ if(!function_exists('currencyPosition')){
         }else {
             return $price. config('settings.site_currency_icon');
         }
+    }
+}
+
+/** Calculate cart total price */
+if(!function_exists('cartTotal')){
+    function cartTotal($price)
+    {
+       $total = 0;
+
+       foreach(Cart::content() as $item){
+        $productPrice = $item->price;
+        $sizePrice = $item->options?->product_size['price'] ?? 0;
+        $optionsPrice = 0;
+        foreach($item->options->product_options as $option){
+            $optionsPrice += $option['price'];
+        }
+        $total += ($productPrice + $sizePrice + $optionsPrice) * $item->qty;
+       }
+       return $total;
     }
 
 }
