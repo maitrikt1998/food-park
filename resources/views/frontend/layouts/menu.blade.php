@@ -90,7 +90,9 @@
                         <p class="size">Qty: {{ $cartProduct->qty }}</p>
                         <p class="size">{{ @$cartProduct->options->product_size['name'] }} {{ @$cartProduct->options->product_size['price'] ? '('.currencyPosition(@$cartProduct->options->product_size['price']).')' : '' }}</p>
                         @foreach ($cartProduct->options->product_options as $cartProductOption)
-                            <span class="extra">{{ $cartProductOption['name']  }} {{ currencyPosition($cartProductOption['price']) }}</span>
+                        @if (is_array($cartProductOption) && isset($cartProductOption['name']))
+                            <span class="extra">{{ $cartProductOption['name'] }} ({{ currencyPosition($cartProductOption['price']) }})</span>
+                        @endif
                         @endforeach
                         <p class="price">{{ currencyPosition($cartProduct->price) }}</p>
                     </div>
@@ -99,7 +101,7 @@
             @endforeach
         </ul>
         <p class="subtotal">sub total <span class="cart_subtotal">{{ currencyPosition(cartTotal()) }}</span></p>
-        <a class="cart_view" href="cart_view.html"> view cart</a>
+        <a class="cart_view" href="{{ route('cart.index') }}"> view cart</a>
         <a class="checkout" href="check_out.html">checkout</a>
     </div>
 </div>

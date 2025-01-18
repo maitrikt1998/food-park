@@ -1,6 +1,6 @@
 <?php
 
-Use Cart;
+use Cart;
 
 
 /** create unique slug */
@@ -44,16 +44,42 @@ if(!function_exists('cartTotal')){
     {
        $total = 0;
 
-       foreach(Cart::content() as $item){
-        $productPrice = $item->price;
-        $sizePrice = $item->options?->product_size['price'] ?? 0;
-        $optionsPrice = 0;
-        foreach($item->options->product_options as $option){
-            $optionsPrice += $option['price'];
+        foreach (Cart::content() as $item) {
+            $productPrice = $item->price;
+            $sizePrice = $item->options?->product_size['price'] ?? 0;
+            $optionsPrice = 0;
+            if (isset($item->options->product_options) && is_array($item->options->product_options)) {
+                foreach ($item->options->product_options as $option) {
+                    if (is_array($option) && isset($option['price'])) {
+                        $optionsPrice += $option['price'];
+                    }
+                }
+            }
+            $total += ($productPrice + $sizePrice + $optionsPrice) * $item->qty;
         }
-        $total += ($productPrice + $sizePrice + $optionsPrice) * $item->qty;
-       }
-       return $total;
+        return $total;
     }
+}
 
+/** Calculate product total price */
+if (!function_exists('productTotal')) {
+    function productTotal($rowId)
+    {
+        $total = 0;
+
+        $product = Cart::get($rowId);
+        $productPrice = $product->price;
+        $sizePrice = $product->options?->product_size['price'] ?? 0;
+        $optionsPrice = 0;
+        if (isset($product->options->product_options) && is_array($product->options->product_options)) {
+            foreach ($product->options->product_options as $option) {
+                if (is_array($option) && isset($option['price'])) {
+                    $optionsPrice += $option['price'];
+                }
+            }
+        }
+        $total += ($productPrice + $sizePrice + $optionsPrice) * $product->qty;
+
+        return $total;
+    }
 }
