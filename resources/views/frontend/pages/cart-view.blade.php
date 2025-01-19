@@ -136,10 +136,19 @@
             let inputField = $(this).siblings(".quantity");
             let currentValue = parseInt(inputField.val());
             let rowId =inputField.data('id');
+            inputField.val(currentValue + 1);
             createQtyUpdate(rowId, inputField.val(), function(response){
-                inputField.val(response.qty);
-                let productTotal = response.product_total;
-                inputField.closest('tr').find('.product_class_total').text("{{ currencyPosition(":productTotal") }}".replace(":productTotal",productTotal));
+                if(response.status === 'success'){
+                    inputField.val(response.qty);
+                    let productTotal = response.product_total;
+                    inputField.closest('tr').find('.product_class_total')
+                        .text("{{ currencyPosition(":productTotal") }}"
+                        .replace(":productTotal",productTotal));
+                }else if(response.status === 'error'){
+                    inputField.val(response.qty);
+                    toastr.error(response.message);
+                }
+
             });
         });
 
@@ -147,16 +156,22 @@
             let inputField = $(this).siblings(".quantity");
             let currentValue = parseInt(inputField.val());
             let rowId =inputField.data('id');
-            // if (currentValue > 0) {
-            //     inputField.val(currentValue - 1);
-            // }
+
+            if (currentValue > 0) {
+                inputField.val(currentValue - 1);
+            }
             if(inputField.val() > 1){
                 createQtyUpdate(rowId, inputField.val(), function(response){
-                    inputField.val(response.qty);
-                    let productTotal = response.product_total;
-                    inputField.closest('tr').find('.product_class_total')
-                        .text("{{ currencyPosition(":productTotal") }}"
-                        .replace(":productTotal",productTotal));
+                    if(response.status === 'success'){
+                        inputField.val(response.qty);
+                        let productTotal = response.product_total;
+                        inputField.closest('tr').find('.product_class_total')
+                            .text("{{ currencyPosition(":productTotal") }}"
+                            .replace(":productTotal",productTotal));
+                    }else if(response.status === 'error'){
+                        inputField.val(response.qty);
+                        toastr.error(response.message);
+                    }
                 });
             }
         });
