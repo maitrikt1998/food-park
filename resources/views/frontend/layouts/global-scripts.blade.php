@@ -79,12 +79,16 @@
             },
             error: function(xhr, status, error){
                 let errorMessage = xhr.responseJSON.message;
-                toastr.error(response.message);
+                toastr.error(errorMessage);
             },
-            complete: function(){
-
-            }
         })
+    }
+
+    /** get current cart total amount */
+
+    function getCartTotal()
+    {
+        return parseInt('{{ cartTotal() }}');
     }
 
 </script>

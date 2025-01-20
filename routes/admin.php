@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Admin\CouponController;
+use App\Http\Controllers\Admin\DeliveryAreaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -44,6 +46,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
      /** Product option Routes */
      Route::resource('product-option', ProductOptionController::class);
+
+     /** Coupon Routes */
+     Route::resource('coupon', CouponController::class);
+
+     /** Delivery Area Routes */
+     Route::resource('delivery-area', DeliveryAreaController::class);
 
      /** Setting Routes */
     Route::get('setting', [SettingController::class,'index'])->name('setting.index');

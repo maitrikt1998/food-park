@@ -127,7 +127,7 @@
                         </form>
 
                         <ul class="details_button_area d-flex flex-wrap">
-                            @if ($Product->quantity === 0)
+                            @if ($product->quantity === 0)
                                 <li><a class="common_btn bg-danger" href="#">Stock out</a></li>
                             @else
                                 <li><a class="common_btn v_submit_button" href="#">add to cart</a></li>
@@ -502,7 +502,7 @@
                     },
                     error: function(xhr, status, error) {
                         let errorMessage = xhr.responseJSON.message;
-                        toastr.error(response.message);
+                        toastr.error(errorMessage);
                     },
                     complete: function() {
                         $('.v_submit_button').html('Add to Cart');

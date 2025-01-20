@@ -40,7 +40,7 @@ if(!function_exists('currencyPosition')){
 
 /** Calculate cart total price */
 if(!function_exists('cartTotal')){
-    function cartTotal($price)
+    function cartTotal()
     {
        $total = 0;
 
@@ -81,5 +81,24 @@ if (!function_exists('productTotal')) {
         $total += ($productPrice + $sizePrice + $optionsPrice) * $product->qty;
 
         return $total;
+    }
+}
+
+/** Calculate product total price */
+if (!function_exists('grandCartTotal')) {
+    function grandCartTotal()
+    {
+        $total = 0;
+        $cartTotal =  cartTotal();
+
+        if(session()->has('coupon')){
+            $discount = session()->get('coupon')['discount'];
+            $total = $cartTotal - $discount;
+
+            return $total;
+        }else {
+            $total = $cartTotal;
+            return $total;
+        }
     }
 }

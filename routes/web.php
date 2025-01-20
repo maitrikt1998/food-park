@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
@@ -49,5 +50,9 @@ Route::get('cart-product-remove/{rowId}', [CartController::class,'cartProductRem
 
 /** Cart Page Routes */
 Route::get('/cart', [CartController::class,'index'])->name('cart.index');
-Route::post('/cart--update-qty', [CartController::class,'cartQtyUpdate'])->name('cart.quantity-update');
+Route::post('/cart-update-qty', [CartController::class,'cartQtyUpdate'])->name('cart.quantity-update');
 Route::get('/cart-destroy', [CartController::class,'cartDestroy'])->name('cart.destroy');
+
+/** Coupon Routes */
+Route::post('/apply-coupon',[FrontendController::class,'applyCoupon'])->name('apply-coupon');
+Route::get('/destroy-coupon',[FrontendController::class,'destroyCoupon'])->name('destroy-coupon');

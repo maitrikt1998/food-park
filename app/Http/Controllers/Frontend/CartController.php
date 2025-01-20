@@ -72,22 +72,31 @@ class CartController extends Controller
     {
         try {
             Cart::remove($rowId);
-            return response(['status' => 'success', 'message' => 'Item has been removed'], 200);
+            return response(['status' => 'success',
+                            'message' => 'Item has been removed',
+                            'cart_total' => cartTotal(),
+                            'grand_cart_total' => grandCartTotal()
+        ], 200);
         } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'Sorry something went wrong!'], 500);
         }
     }
 
     function cartQtyUpdate(Request $request): Response {
-        $cartItem = Cart::get($request->rowId)
+        $cartItem = Cart::get($request->rowId);
         $product = Product::findOrFail($cartItem->id);
 
         if($product->quantity < $request->qty){
-            return response(['status' => 'error', 'message' => 'Quantity is not available', 'qty' => $cartItem->qty])
+            return response(['status' => 'error', 'message' => 'Quantity is not available', 'qty' => $cartItem->qty]);
         }
         try{
-            Cart::update($request->rowId, $request->qty);
-            return response(['status' => 'success','product_total' => productTotal($request->rowId), 'qty' => $cart->qty], 200);
+            $cart = Cart::update($request->rowId, $request->qty);
+            return response(['status' => 'success',
+                'product_total' => productTotal($request->rowId),
+                'qty' => $cart->qty,
+                'cart_total' => cartTotal(),
+                'grand_cart_total' => grandCartTotal()
+            ], 200);
         }catch(\Exception $e){
             return response(['status' => 'error', 'message' => 'Sorry something went wrong please reload'], 500);
         }
@@ -95,6 +104,7 @@ class CartController extends Controller
 
     function cartDestroy(){
         Cart::Destroy();
+        session()->forget('coupon');
         return redirect()->back();
     }
 }
