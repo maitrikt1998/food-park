@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AdminAuthController;
+use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\DashboardController;
@@ -30,6 +31,9 @@ Route::group(['middleware' => 'auth'], function () {
    Route::put('/profile',[ProfileController::class,'updateProfile'])->name('profile.update');
    Route::put('/profile/password',[ProfileController::class,'updatePassword'])->name('profile.password.update');
    Route::post('/profile/avatar',[ProfileController::class,'updateAvatar'])->name('profile.avatar.update');
+   Route::post('/address', [DashboardController::class, 'createAddress'])->name('address.store');
+   Route::put('/address/{id}/edit', [DashboardController::class, 'updateAddress'])->name('address.update');
+   Route::delete('/address/{id}', [DashboardController::class, 'destroyAddress'])->name('address.destroy');
 });
 
 require __DIR__.'/auth.php';
@@ -56,3 +60,8 @@ Route::get('/cart-destroy', [CartController::class,'cartDestroy'])->name('cart.d
 /** Coupon Routes */
 Route::post('/apply-coupon',[FrontendController::class,'applyCoupon'])->name('apply-coupon');
 Route::get('/destroy-coupon',[FrontendController::class,'destroyCoupon'])->name('destroy-coupon');
+
+Route::group(['middleware' => 'auth'],function(){
+    Route::get('checkout',[CheckoutController::class,'index'])->name('checkout.index');
+    Route::get('checkout/{id}/delivery-cal',[CheckoutController::class,'CalculationDeliveryCharge'])->name('checkout.delivery-cal');
+});
