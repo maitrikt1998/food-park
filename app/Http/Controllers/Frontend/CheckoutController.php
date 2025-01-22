@@ -21,11 +21,26 @@ class CheckoutController extends Controller
         try{
             $address = Address::findOrFail($id);
             $deliveryFee = $address->deliveryArea->delivery_fee;
-            $grandTotal = grandCartTotal() + $deliveryFee;
+            $grandTotal = grandCartTotal($deliveryFee);
             return response(['delivery_fee' => $deliveryFee, 'grand_total' => $grandTotal], 200);
         }catch(\Exception $e){
             return response(['message' => 'Something Went Wrong!'],422);
-        }
-        
+        } 
+    }
+
+    public function CheckoutRedirect(Request $request)
+    {
+        $request->validate([
+            'id' => ['required', 'integer']
+        ]);
+
+        $address = Address::with('deliveryArea')->findOrFail($request->id);
+
+        $selectedAddress = $address->address.', Aria: '.$address->deliveryArea?->area_name;
+
+        session()->put('address', $selectedAddress);
+        session()->put('delivery_fee', $address->deliveryArea?->delivery_fee);
+
+        return response(['redirect_url' =>route('payment.index') ]);
     }
 }
