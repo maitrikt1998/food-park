@@ -30,10 +30,8 @@ class PaymentController extends Controller
         ]);
 
         /** Create order */
-        try{
-            $orderService->createOrder();
-        }catch(\Exception $e){
-            throw $e;
+        if($orderService->createOrder()){
+            // redirect user to payment host
         }
     }
 }
