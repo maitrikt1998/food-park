@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DeliveryAreaController;
+use App\Http\Controllers\Admin\PaymentGatewaySettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -52,6 +53,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
      /** Delivery Area Routes */
      Route::resource('delivery-area', DeliveryAreaController::class);
+
+     /** Payment Gateway setting Routes */
+    Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
+    Route::put('payment-setting', [PaymentGatewaySettingController::class,'paypalSettingUpdate'])->name('paypal-setting.update');
 
      /** Setting Routes */
     Route::get('setting', [SettingController::class,'index'])->name('setting.index');
