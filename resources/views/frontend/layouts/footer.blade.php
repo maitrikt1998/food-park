@@ -4,7 +4,7 @@
             <div class="row justify-content-between">
                 <div class="col-lg-4 col-sm-8 col-md-6">
                     <div class="fp__footer_content">
-                        <a class="footer_logo" href="index.html">
+                        <a class="footer_logo" href="{{ url('/') }}">
                             <img src="{{ asset('frontend/images/footer_logo.png') }}" alt="FoodPark" class="img-fluid w-100">
                         </a>
                         <span>There are many variations of Lorem Ipsum available, but the majority have

@@ -11,7 +11,7 @@
                 <div class="fp__breadcrumb_text">
                     <h1>payment</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
                         <li><a href="#">payment</a></li>
                     </ul>
                 </div>
@@ -37,6 +37,13 @@
                                 <a class="fp__single_payment payment-card" data-name="paypal" data-bs-toggle="modal" data-bs-target="#exampleModal"
                                     href="#">
                                     <img src="{{ asset('frontend/images/pay_1.jpg') }}" alt="payment method" class="img-fluid w-100">
+                                </a>
+                            </div>
+
+                            <div class="col-lg-3 col-6 col-sm-4 col-md-3 wow fadeInUp" data-wow-duration="1s">
+                                <a class="fp__single_payment payment-card" data-name="stripe" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                                    href="#">
+                                    <img src="{{ asset(config('gatewaySettings.stripe_logo')) }}" alt="payment method" class="img-fluid w-100">
                                 </a>
                             </div>
                             
@@ -79,6 +86,8 @@
                         showLoader();
                     },
                     success: function(response){
+                        console.log("redirect");
+                        console.log(response.redirect_url);
                         window.location.href = response.redirect_url;
                     },
                     error: function(xhr, status, error){
@@ -88,7 +97,7 @@
                         });
                     },
                     complete: function(){
-                        hideLoader();
+                        // hideLoader();
                     }
                 });
             });

@@ -10,7 +10,7 @@
                 <div class="fp__breadcrumb_text">
                     <h1>sign up</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
                         <li><a href="#">sign up</a></li>
                     </ul>
                 </div>

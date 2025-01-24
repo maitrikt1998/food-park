@@ -11,7 +11,7 @@
                 <div class="fp__breadcrumb_text">
                     <h1>user dashboard</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
                         <li><a href="#">dashboard</a></li>
                     </ul>
                 </div>

@@ -8,16 +8,16 @@
                 <div class="form-group">
                     <label for="paypal_status">Paypal Status</label>
                     <select name="paypal_status" id="" class="select2 form-control">
-                        <option @selected($paypalGateway['paypal_status'] === 1) value="1">Active</option>
-                        <option @selected($paypalGateway['paypal_status'] === 0) value="0">InActive</option>
+                        <option @selected(@$paymentGateway['paypal_status'] == 1) value="1">Active</option>
+                        <option @selected(@$paymentGateway['paypal_status'] == 0) value="0">Inactive</option>
                     </select>
                 </div>
 
                 <div class="form-group">
                     <label for="paypal_account_mode">Paypal Account Mode</label>
                     <select name="paypal_account_mode" id="" class="select2 form-control">
-                        <option @selected($paypalGateway['paypal_account_mode'] === 'sandbox')  value="sandbox">Sandbox</option>
-                        <option @selected($paypalGateway['paypal_account_mode'] === 'live')  value="live">Live</option>
+                        <option @selected(@$paymentGateway['paypal_account_mode'] === 'sandbox')  value="sandbox">Sandbox</option>
+                        <option @selected(@$paymentGateway['paypal_account_mode'] === 'live')  value="live">Live</option>
                     </select>
                 </div>
 
@@ -25,8 +25,8 @@
                     <label for="paypal_country">Paypal Country Name</label>
                     <select name="paypal_country" id="" class="select2 form-control">
                         <option value="">Select</option>
-                        @foreach (Config('country_list') as $key => $country)
-                            <option @selected($paypalGateway['paypal_country'] ===  $key ) value="{{ $key }}">{{ $country }}</option>
+                        @foreach (config('country_list') as $key => $country)
+                            <option @selected(@$paymentGateway['paypal_country'] ===  $key ) value="{{ $key }}">{{ $country }}</option>
                         @endforeach
                         
                     </select>
@@ -37,7 +37,7 @@
                     <select name="paypal_currency" id="" class="select2 form-control">
                         <option value="">Select</option>
                         @foreach (config('currencys.currency_list') as $currency)
-                            <option @selected($paypalGateway['paypal_currency'] === $currency) value="{{ $currency }}">
+                            <option @selected(@$paymentGateway['paypal_currency'] === $currency) value="{{ $currency }}">
                                 {{ $currency }}</option>
                         @endforeach
                     </select>
@@ -45,22 +45,27 @@
 
                 <div class="form-group">
                     <label for="paypal_rate">Currency Rate(  Per {{ config('settings.site_default_currency' ) }})</label>
-                    <input name="paypal_rate" type="text" class="form-control" value="{{ $paypalGateway['paypal_rate'] }}">
+                    <input name="paypal_rate" type="text" class="form-control" value="{{ @$paymentGateway['paypal_rate'] }}">
                 </div>
 
                 <div class="form-group">
                     <label for="paypal_api_key">Paypal Client Id</label>
-                    <input name="paypal_api_key" type="text" class="form-control" value="{{ $paypalGateway['paypal_api_key'] }}">
+                    <input name="paypal_api_key" type="text" class="form-control" value="{{ @$paymentGateway['paypal_api_key'] }}">
                 </div>
 
                 <div class="form-group">
                     <label for="paypal_secret_key">Paypal Secret Key</label>
-                    <input name="paypal_secret_key" type="text" class="form-control" value="{{ $paypalGateway['paypal_secret_key'] }}">
+                    <input name="paypal_secret_key" type="text" class="form-control" value="{{ @$paymentGateway['paypal_secret_key'] }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="paypal_app_id">Paypal App Id</label>
+                    <input name="paypal_app_id" type="text" class="form-control" value="{{ @$paymentGateway['paypal_app_id'] }}">
                 </div>
                  
                 <div class="form-group">
                     <label>Paypal Logo</label>
-                    <div id="image-preview" class="image-preview">
+                    <div id="image-preview" class="image-preview paypal-preview">
                         <label for="image-upload" id="image-label">Choose File</label>
                         <input type="file" name="paypal_logo" id="image-upload" />
                     </div>
@@ -75,8 +80,8 @@
 @push('scripts')
     <script>
         $(document).ready(function(){
-            let paypalLogo = '{{ isset($paypalGateway["paypal_logo"]) ? asset($paypalGateway["paypal_logo"]) : "" }}';
-            $('.image-preview').css({
+            let paypalLogo = '{{ isset($paymentGateway["paypal_logo"]) ? asset($paymentGateway["paypal_logo"]) : "" }}';
+            $('.paypal-preview').css({
                 'background-image': paypalLogo ? `url(${paypalLogo})` : '',
                 'background-size': 'cover',
                 'background-position': 'center center'

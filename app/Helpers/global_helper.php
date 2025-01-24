@@ -1,7 +1,5 @@
 <?php
 
-use Cart;
-
 
 /** create unique slug */
 if(!function_exists('generateUniqueSlug')){

@@ -12,7 +12,7 @@
                 <div class="fp__breadcrumb_text">
                     <h1>forgot password</h1>
                     <ul>
-                        <li><a href="index.html">home</a></li>
+                        <li><a href="{{ url('/') }}">home</a></li>
                         <li><a href="#">forgot password</a></li>
                     </ul>
                 </div>
