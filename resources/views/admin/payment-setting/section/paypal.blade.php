@@ -28,7 +28,7 @@
                         @foreach (config('country_list') as $key => $country)
                             <option @selected(@$paymentGateway['paypal_country'] ===  $key ) value="{{ $key }}">{{ $country }}</option>
                         @endforeach
-                        
+
                     </select>
                 </div>
 
@@ -62,7 +62,7 @@
                     <label for="paypal_app_id">Paypal App Id</label>
                     <input name="paypal_app_id" type="text" class="form-control" value="{{ @$paymentGateway['paypal_app_id'] }}">
                 </div>
-                 
+
                 <div class="form-group">
                     <label>Paypal Logo</label>
                     <div id="image-preview" class="image-preview paypal-preview">
