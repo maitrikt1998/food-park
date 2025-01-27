@@ -152,7 +152,7 @@ class PaymentController extends Controller
             $paymentInfo = [
                 'transaction_id' => $capture['id'],
                 'currency' => $capture['amount']['currency_code'],
-                'status' => $capture['status']
+                'status' => 'completed'
             ];
 
             OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'PayPal');
@@ -179,8 +179,8 @@ class PaymentController extends Controller
 
         $grandTotal = session()->get('grand_total');
         $payableAmount = round($grandTotal * config('gatewaySettings.paypal_rate')) * 100;
-
         $response = StripeSession::create([
+            'payment_method_types' => ['card'],
             'line_items' => [
                 [
                     'price_data' => [
@@ -194,19 +194,18 @@ class PaymentController extends Controller
                 ]
             ],
             'mode' => 'payment',
-            'success_url' => route('stripe.success'). '?session_id = {CHECKOUT_SESSION_ID}',
-            'cancel_url' => route('stripe.cancel'). '?session_id = {CHECKOUT_SESSION_ID}',
+            'success_url' => route('stripe.success').'?session_id={CHECKOUT_SESSION_ID}',
+            'cancel_url' => route('stripe.cancel').'?session_id={CHECKOUT_SESSION_ID}',
         ]);
-
         return redirect()->away($response->url);
     }
 
     public function stripeSuccess(Request $request, OrderService $orderService)
     {
         $sessionId = $request->session_id;
-        Stripe::setApiKey('gatewaySettings.stripe_secret_key');
+        Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
         $response = StripeSession::retrieve($sessionId);
-
+        dd($response);
         if($response->payment_status === 'paid')
         {
             $orderId = session()->get('order_id');
@@ -214,7 +213,7 @@ class PaymentController extends Controller
             $paymentInfo = [
                 'transaction_id' => $response->payment_intent,
                 'currency' => $response->currency,
-                'status' => $response->status
+                'status' => 'completed'
             ];
 
             OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'stripe');
@@ -269,7 +268,7 @@ class PaymentController extends Controller
                 $paymentInfo = [
                     'transaction_id' => $response->id,
                     'currency' => config('settings.site_default_currency'),
-                    'status' => 'COMPLETED'
+                    'status' => 'completed'
                 ];
 
                 OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'Razorpay');

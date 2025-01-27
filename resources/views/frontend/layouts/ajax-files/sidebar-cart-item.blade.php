@@ -3,7 +3,7 @@
 @foreach (Cart::content() as $cartProduct)
     <li>
         <div class="menu_cart_img">
-            <img src="{{ $cartProduct->options->product_info['image'] }}" alt="menu" class="img-fluid w-100">
+            <img src="{{ asset($cartProduct->options->product_info['image']) }}" alt="menu" class="img-fluid w-100">
         </div>
         <div class="menu_cart_text">
             <a class="title"
@@ -12,9 +12,10 @@
             <p class="size">Qty: {{ $cartProduct->qty }}</p>
             <p class="size">{{ @$cartProduct->options->product_size['name'] }} {{ @$cartProduct->options->product_size['price'] ? '('.currencyPosition(@$cartProduct->options->product_size['price']).')' : '' }}</p>
             @foreach ($cartProduct->options->product_options as $productOption)
-                <span class="extra">{{ $productOption['name'] }}</span>
+                @if (isset($productOption['name']))
+                    <span class="extra">{{ $productOption['name'] }}
+                @endif
             @endforeach
-            <p class="price">{{ currencyPosition($cartProduct->price) }}</p>
         </div>
         <span class="del_icon"><i class="fal fa-times" onclick="removeProductFromSidebar('{{ $cartProduct->rowId }}')"></i></span>
     </li>

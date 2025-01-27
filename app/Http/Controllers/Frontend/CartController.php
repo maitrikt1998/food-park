@@ -42,7 +42,7 @@ class CartController extends Controller
             }
 
             foreach ($productOptions as $option) {
-                $options['product_options'] = [
+                $options['product_options'][] = [
                     'id' => $option->id,
                     'name' => $option->name,
                     'price' => $option->price
@@ -63,7 +63,7 @@ class CartController extends Controller
         }
     }
 
-    function getCartProduct(): View
+    function getCartProduct()
     {
         return view('frontend.layouts.ajax-files.sidebar-cart-item')->render();
     }

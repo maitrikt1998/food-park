@@ -22,7 +22,7 @@
                       <a class="nav-link" id="home-tab4" data-toggle="tab" href="#stripe-setting" role="tab" aria-controls="home" aria-selected="true">Stripe</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" id="home-tab4" data-toggle="tab" href="#razorpay-setting" role="tab" aria-controls="home" aria-selected="true">Stripe</a>
+                        <a class="nav-link" id="home-tab4" data-toggle="tab" href="#razorpay-setting" role="tab" aria-controls="home" aria-selected="true">Razorpay</a>
                     </li>
                   </ul>
                 </div>
