@@ -3,12 +3,12 @@
 @section('content')
 <div class="section">
   <div class="section-header">
-    <h1>All Orders</h1>
+    <h1>Declined Orders</h1>
   </div>
   <div class="col-12 col-md-12 col-lg-12">
     <div class="card card-primary">
       <div class="card-header">
-        <h4>All Orders</h4>
+        <h4>Declined Orders</h4>
         <div class="card-header-action">
           <a href="{{ route('admin.product.create') }}" class="btn btn-primary">
             Create New
@@ -110,8 +110,8 @@
           data: formContent,
           success: function(response){
             $('#order_modal').modal('hide');
-            $('#order-table').DataTable().draw();
-
+            $('#pendingorder-table').DataTable().draw();
+            
             toastr.success(response.message);
           },
           error: function(xhr, status, error){

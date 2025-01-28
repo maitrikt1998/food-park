@@ -12,7 +12,7 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class OrderDataTable extends DataTable
+class InProcessOrderDataTable extends DataTable
 {
     /**
      * Build the DataTable class.
@@ -65,7 +65,7 @@ class OrderDataTable extends DataTable
      */
     public function query(Order $model): QueryBuilder
     {
-        return $model->newQuery();
+        return $model->where('order_status','in_process')->newQuery();
     }
 
     /**
@@ -74,7 +74,7 @@ class OrderDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('order-table')
+                    ->setTableId('pendingorder-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
@@ -96,7 +96,6 @@ class OrderDataTable extends DataTable
     public function getColumns(): array
     {
         return [
-            
             Column::make('id'),
             Column::make('invoice_id'),
             Column::make('user_name'),
@@ -119,6 +118,6 @@ class OrderDataTable extends DataTable
      */
     protected function filename(): string
     {
-        return 'Order_' . date('YmdHis');
+        return 'PendingOrder_' . date('YmdHis');
     }
 }

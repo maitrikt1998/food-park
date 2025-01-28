@@ -205,7 +205,6 @@ class PaymentController extends Controller
         $sessionId = $request->session_id;
         Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
         $response = StripeSession::retrieve($sessionId);
-        dd($response);
         if($response->payment_status === 'paid')
         {
             $orderId = session()->get('order_id');

@@ -3,7 +3,7 @@
 @section('content')
 <section class="section">
     <div class="section-header">
-        <h1>Invoice</h1>
+        <h1>Order Preview</h1>
         <div class="section-header-breadcrumb">
             <div class="breadcrumb-item active"><a href="#">Dashboard</a></div>
             <div class="breadcrumb-item">Invoice</div>
@@ -24,15 +24,16 @@
                             <div class="col-md-6">
                                 <address>
                                     <strong>Deliver To:</strong><br>
-                                    <strong>Name: </strong>{!! @$order->user?->name !!}
-                                    <strong>Email: </strong>{!! $order->user?->email !!}
-                                    <strong>Address: </strong>{!! $order->address !!}
-                                    <strong>Address: </strong>{!! $order->address !!}
+                                    <strong>Name:</strong> {!! @$order->userAddress->first_name !!} {!! @$order->userAddress->last_name !!}<br>
+                                    <strong>Phone:</strong> {!! @$order->userAddress->phone !!}<br>
+                                    <strong>Address:</strong> {!! @$order->userAddress->address !!}<br>
+                                    <strong>Aria:</strong> {!! @$order->userAddress->deliveryArea->area_name !!}
                                 </address>
                             </div>
                             <div class="col-md-6 text-md-right">
                                 <address>
-                                  
+                                    <strong>Order Date:</strong><br>
+                                    {{ date('F d, Y H:i',strtotime($order->created_at)) }}<br><br> 
                                 </address>
                             </div>
                         </div>
@@ -40,14 +41,27 @@
                             <div class="col-md-6">
                                 <address>
                                     <strong>Payment Method:</strong><br>
-                                    Visa ending **** 4242<br>
-                                    ujang@maman.com
+                                    {{ $order->payment_method }}<br>
+                                    <strong>Payment Status:</strong><span class="badge badge-"></span>
+                                        @if(strtoupper($order->payment_status) == 'COMPLETED')
+                                            <span class="badge badge-success">COMPLETED</span>
+                                        @elseif(strtoupper($order->payment_status) == 'PENDING')
+                                            <span class="badge badge-danger">PENDING</span>
+                                        @else
+                                            <span class="badge badge-warning">{{ $order->payment_status }}</span>
+                                        @endif                                        
                                 </address>
                             </div>
                             <div class="col-md-6 text-md-right">
                                 <address>
-                                    <strong>Order Date:</strong><br>
-                                    September 19, 2018<br><br>
+                                    <strong>Order Status:</strong><br>
+                                    @if($order->order_status === 'delivered')
+                                        <span class="badge badge-success">Delivered</span>
+                                    @elseif($order->order_status === 'declined')
+                                        <span class="badge badge-danger">Declined</span>
+                                    @else
+                                        <span class="badge badge-warning">{{ $order->order_status }}</span>
+                                    @endif
                                 </address>
                             </div>
                         </div>
@@ -63,59 +77,87 @@
                                 <tr>
                                     <th data-width="40">#</th>
                                     <th>Item</th>
+                                    <th>Size & Optional</th>
                                     <th class="text-center">Price</th>
                                     <th class="text-center">Quantity</th>
                                     <th class="text-right">Totals</th>
                                 </tr>
-                                <tr>
-                                    <td>1</td>
-                                    <td>Mouse Wireless</td>
-                                    <td class="text-center">$10.99</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$10.99</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>Keyboard Wireless</td>
-                                    <td class="text-center">$20.00</td>
-                                    <td class="text-center">3</td>
-                                    <td class="text-right">$60.00</td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>Headphone Blitz TDR-3000</td>
-                                    <td class="text-center">$600.00</td>
-                                    <td class="text-center">1</td>
-                                    <td class="text-right">$600.00</td>
-                                </tr>
+                                @foreach ($order->orderItems as $orderItem)
+                                @php
+                                   $size = json_decode($orderItem->product_size);
+                                   $options = json_decode($orderItem->product_option);
+
+                                   $qty = $orderItem->qty;
+                                   $unitPrice = $orderItem->unit_price;
+                                   $sizePrice = $size->price;
+                                   $optionPrice = 0;
+                                   foreach($options as $optionItem){
+                                        $optionPrice += $optionItem->price;
+                                   }
+
+                                   $productTotal = ($unitPrice + $sizePrice + $optionPrice) * $qty; 
+                                @endphp
+                                    <tr>
+                                        <td data-widtd="40">{{ ++$loop->index }}</td>
+                                        <td>{{ $orderItem->product_name}}</td>
+                                        <td>
+                                            <b>{{ @$size->name }}({{ currencyPosition(@$size->price)}})</b></br>
+                                            @foreach ($options as $option)
+                                                {{ @$option->name }}({{ currencyPosition(@$option->price)}})</br>
+                                            @endforeach
+                                        </td>
+                                        <td class="text-center">{{ currencyPosition($orderItem->unit_price)}}</td>
+                                        <td class="text-center">{{ $orderItem->qty }}</td>
+                                        <td class="text-right">{{ currencyPosition($productTotal) }}</td>
+                                    </tr>
+                                @endforeach
+                               
                             </table>
                         </div>
                         <div class="row mt-4">
                             <div class="col-lg-8">
-                                <div class="section-title">Payment Method</div>
-                                <p class="section-lead">The payment method that we provide is to make it
-                                    easier for you to pay invoices.</p>
-                                <div class="images">
-                                    <img src="assets/img/visa.png" alt="visa">
-                                    <img src="assets/img/jcb.png" alt="jcb">
-                                    <img src="assets/img/mastercard.png" alt="mastercard">
-                                    <img src="assets/img/paypal.png" alt="paypal">
-                                </div>
+                                <div class="col-md-4 d-print-none">
+                                    <form action="{{ route('admin.orders.status-update', $order->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="form-group">
+                                            <label for="payment_status">Payment Status</label>
+                                            <select name="payment_status" id="" class="form-control">
+                                                <option @selected($order->payment_status === 'pending') value="pending">PENDING</option>
+                                                <option @selected($order->payment_status === 'completed') value="completed">COMPLETED</option>
+                                            </select>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="order_status">Order Status</label>
+                                            <select name="order_status" id="" class="form-control">
+                                                <option @selected($order->order_status === 'pending') value="pending">PENDING</option>
+                                                <option @selected($order->order_status === 'in_process') value="in_process">In Process</option>
+                                                <option @selected($order->order_status === 'delivered') value="delivered">Deliverd</option>
+                                                <option @selected($order->order_status === 'declined') value="declined">Declined</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-info">Update</button>
+                                    </form>
+                                </div>   
                             </div>
                             <div class="col-lg-4 text-right">
                                 <div class="invoice-detail-item">
                                     <div class="invoice-detail-name">Subtotal</div>
-                                    <div class="invoice-detail-value">$670.99</div>
+                                    <div class="invoice-detail-value">{{ currencyPosition($order->subtotal)}}</div>
                                 </div>
                                 <div class="invoice-detail-item">
                                     <div class="invoice-detail-name">Shipping</div>
-                                    <div class="invoice-detail-value">$15</div>
+                                    <div class="invoice-detail-value">{{ currencyPosition($order->delivery_charge ?? 0)}}</div>
+                                </div>
+                                <div class="invoice-detail-item">
+                                    <div class="invoice-detail-name">Discount</div>
+                                    <div class="invoice-detail-value">{{ currencyPosition($order->discount)}}</div>
                                 </div>
                                 <hr class="mt-2 mb-2">
                                 <div class="invoice-detail-item">
                                     <div class="invoice-detail-name">Total</div>
-                                    <div class="invoice-detail-value invoice-detail-value-lg">$685.99
-                                    </div>
+                                    <div class="invoice-detail-value invoice-detail-value-lg">{{ currencyPosition($order->grand_total)}}</div>
                                 </div>
                             </div>
                         </div>
@@ -125,12 +167,9 @@
             <hr>
             <div class="text-md-right">
                 <div class="float-lg-left mb-lg-0 mb-3">
-                    <button class="btn btn-primary btn-icon icon-left"><i class="fas fa-credit-card"></i> Process
-                        Payment</button>
-                    <button class="btn btn-danger btn-icon icon-left"><i class="fas fa-times"></i>
-                        Cancel</button>
+                    
                 </div>
-                <button class="btn btn-warning btn-icon icon-left"><i class="fas fa-print"></i>
+                <button class="btn btn-warning btn-icon icon-left" id="print_btn"><i class="fas fa-print"></i>
                     Print</button>
             </div>
         </div>
@@ -138,3 +177,26 @@
 </section>
 
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function(){
+        $('#print_btn').on('click',function(){
+            let printContents = $('.invoice-print').html();
+
+            let printWindow = window.open('','','width=600, height=600');
+            printWindow.document.open();
+            printWindow.document.write('<html>');
+            printWindow.document.write('<link rel="stylesheet" href="{{ asset("admin/assets/modules/bootstrap/css/bootstrap.min.css") }}">');
+            printWindow.document.write('<body>');
+            printWindow.document.write(printContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+
+            printWindow.print();
+            printWindow.close();
+
+        })
+    })
+</script>
+@endpush

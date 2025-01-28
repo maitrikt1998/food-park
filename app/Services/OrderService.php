@@ -33,6 +33,7 @@ class OrderService {
                 $orderItem->order_id = $order->id;
                 $orderItem->product_name =  $product->name;
                 $orderItem->product_id = $product->id;
+                $orderItem->unit_price = $product->price;
                 $orderItem->qty = $product->qty;
                 $orderItem->product_size = json_encode($product->options->product_size);
                 $orderItem->product_option = json_encode($product->options->product_options);
