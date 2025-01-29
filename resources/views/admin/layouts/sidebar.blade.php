@@ -25,13 +25,8 @@
                 <a href="features-settings.html" class="dropdown-item has-icon">
                     <i class="fas fa-cog"></i> Settings
                 </a>
-                <div class="dropdown-divider"></div>
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
-                    <x-dropdown-link :href="route('logout')">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
                     <a href="#" onclick="event.preventDefault();
                                         this.closest('form').submit();" class="dropdown-item has-icon text-danger">
                         <i class="fas fa-sign-out-alt"></i> Logout

@@ -257,7 +257,7 @@
                                                     <td align="left" valign="top"
                                                         style="font-family: Open Sans, Helvetica, Arial, sans-serif; font-size: 16px; font-weight: 400; line-height: 24px;text-align:right;">
                                                         <p style="font-weight: 800;">Estimated Delivery Time</p>
-                                                        <p> {{ $order->address->deliveryArea->min_delivery_time }} - {{ $order->address->deliveryArea->max_delivery_time }}</p>
+                                                        <p> {{ @$order->address->deliveryArea->min_delivery_time }} - {{ @$order->address->deliveryArea->max_delivery_time }}</p>
                                                     </td>
                                                 </tr>
                                             </table>

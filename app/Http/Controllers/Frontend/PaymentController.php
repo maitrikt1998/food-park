@@ -104,7 +104,6 @@ class PaymentController extends Controller
             $grandTotal = session()->get('grand_total');
             $payableAmount = round($grandTotal * config('gatewaySettings.paypal_rate'));
 
-
             $response = $provider->createOrder([
                 'intent' => "CAPTURE",
                 'application_context' => [
@@ -136,7 +135,6 @@ class PaymentController extends Controller
             }
         }catch(Exception $e){
             \Log::error('PayPal Error: ' . $e->getMessage());
-            dd($e->getMessage());
         }
     }
 
@@ -146,7 +144,7 @@ class PaymentController extends Controller
         $provider = new PayPalClient($config);
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request->token);
-        if(isset($respose['status']) && $respose['status'] === 'COMPLETED'){
+        if(isset($respose['status']) && $response['status'] === 'COMPLETED'){
             $orderId = session()->get('order_id');
             $capture = $response['purchase_units'][0]['payments']['captures'][0];
             $paymentInfo = [
@@ -162,7 +160,7 @@ class PaymentController extends Controller
 
             return redirect()->route('payment.success');
         }else{
-            return redirect()->route('payment.cancel')->withErrors(['error' =>$respose['error']['message']]);
+            return redirect()->route('payment.cancel')->withErrors(['error' =>$response['error']['message']]);
         }
     }
 
@@ -201,21 +199,23 @@ class PaymentController extends Controller
     }
 
     public function stripeSuccess(Request $request, OrderService $orderService)
-    {
+    {        
         $sessionId = $request->session_id;
+        
         Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
         $response = StripeSession::retrieve($sessionId);
         if($response->payment_status === 'paid')
         {
             $orderId = session()->get('order_id');
-            $capture = $response['purchase_units'][0]['payments']['captures'][0];
+
+            // $capture = $response['purchase_units'][0]['payments']['captures'][0];
             $paymentInfo = [
                 'transaction_id' => $response->payment_intent,
                 'currency' => $response->currency,
                 'status' => 'completed'
             ];
 
-            OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'stripe');
+            OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'stripe');
             OrderPlacedNotificationEvent::dispatch($orderId);
 
             /** Clear Session  Data*/

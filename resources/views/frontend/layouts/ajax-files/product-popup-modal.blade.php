@@ -59,7 +59,7 @@
 
 
         <div class="details_quentity">
-            <h5>select quentity</h5>
+            <h5>select quantity</h5>
             <div class="quentity_btn_area d-flex flex-wrapa align-items-center">
                 <div class="quentity_btn">
                     <button class="btn btn-danger decrement"><i class="fal fa-minus"></i></button>
