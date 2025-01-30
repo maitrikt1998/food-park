@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Setting;
 use App\Services\SettingService;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class SettingController extends Controller
@@ -33,6 +34,30 @@ class SettingController extends Controller
 
         $settingService = app(SettingService::class);
         $settingService->clearCachedSettings();
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
+    }
+
+    function UpdatePusherSetting(Request $request): RedirectResponse
+    {
+        $validatedData = $request->validate([
+            'pusher_app_id' => ['required'],
+            'pusher_key' => ['required'],
+            'pusher_secret' => ['required'],
+            'pusher_cluster' => ['required'],
+        ]);
+
+        foreach ($validatedData as $key => $value) {
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        $settingsService = app(SettingService::class);
+        $settingsService->clearCachedSettings();
+
         toastr()->success('Updated Successfully!');
 
         return redirect()->back();
