@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\RTOorderPlacedNotificationEvent;
 use App\Http\Controllers\Admin\AdminAuthController;
 use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Admin\CouponController;
@@ -87,4 +88,9 @@ Route::group(['middleware' => 'auth'],function(){
     /** Razorpay Routes */
     Route::get('razorpay-redirect', [PaymentController::class, 'razorpayRedirect'])->name('razorpay-redirect');
     Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
+
+    Route::get("test", function(){
+        RTOorderPlacedNotificationEvent::dispatch("hello-there!");
+    });
+    
 });

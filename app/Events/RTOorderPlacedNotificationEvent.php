@@ -14,18 +14,17 @@ class RTOorderPlacedNotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
+    public $order;
+
     /**
      * Create a new event instance.
      */
-    public function __construct()
-    {
-        $this->setConfig();
-    }
-
-    function setConfig()
+    public function __construct($order)
     {
 
+        $this->order = $order;
     }
+
 
     /**
      * Get the channels the event should broadcast on.
@@ -35,7 +34,7 @@ class RTOorderPlacedNotificationEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('channel-name'),
+            new Channel('order-placed'),
         ];
     }
 }

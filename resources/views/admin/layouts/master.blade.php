@@ -25,11 +25,10 @@
 <!-- Start GA -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=UA-94034622-3"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  var pusherKey = "{{ config('settings.pusher_key') }}";
+  var pusherCluster = "{{ config('settings.pusher_cluster') }}";
+  console.log(pusherKey, pusherCluster);
 
-  gtag('config', 'UA-94034622-3');
 </script>
 
 @vite(['resources/js/app.js'])
