@@ -9,6 +9,7 @@ use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\PaymentController;
 use App\Http\Controllers\Frontend\ProfileController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -88,9 +89,4 @@ Route::group(['middleware' => 'auth'],function(){
     /** Razorpay Routes */
     Route::get('razorpay-redirect', [PaymentController::class, 'razorpayRedirect'])->name('razorpay-redirect');
     Route::post('razorpay/payment', [PaymentController::class, 'payWithRazorpay'])->name('razorpay.payment');
-
-    Route::get("test", function(){
-        RTOorderPlacedNotificationEvent::dispatch("hello-there!");
-    });
-    
 });

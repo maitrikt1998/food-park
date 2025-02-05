@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Events\OrderPaymentUpdateEvent;
 use App\Events\OrderPlacedNotificationEvent;
+use App\Events\RTOorderPlacedNotificationEvent;
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Services\OrderService;
 use Exception;
 use Illuminate\Http\Request;
@@ -155,6 +157,7 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'PayPal');
             OrderPlacedNotificationEvent::dispatch($orderId);
+            RTOorderPlacedNotificationEvent::dispatch(Order::find($orderId));
             /** Clear Session  Data*/
             $orderService->clearSession();
 
@@ -199,9 +202,9 @@ class PaymentController extends Controller
     }
 
     public function stripeSuccess(Request $request, OrderService $orderService)
-    {        
+    {
         $sessionId = $request->session_id;
-        
+
         Stripe::setApiKey(config('gatewaySettings.stripe_secret_key'));
         $response = StripeSession::retrieve($sessionId);
         if($response->payment_status === 'paid')
@@ -217,6 +220,7 @@ class PaymentController extends Controller
 
             OrderPaymentUpdateEvent::dispatch($orderId, $paymentInfo, 'stripe');
             OrderPlacedNotificationEvent::dispatch($orderId);
+            RTOorderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
             /** Clear Session  Data*/
             $orderService->clearSession();
@@ -272,6 +276,7 @@ class PaymentController extends Controller
 
                 OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'Razorpay');
                 OrderPlacedNotificationEvent::dispatch($orderId);
+                RTOorderPlacedNotificationEvent::dispatch(Order::find($orderId));
 
                 /** Clear Session  Data*/
                 $orderService->clearSession();
