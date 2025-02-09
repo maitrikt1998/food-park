@@ -15,6 +15,7 @@ use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
+use App\Http\Controllers\Admin\ChatController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -70,6 +71,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
      /** Order Notification Routes */
      Route::get('clear-notification',[AdminDashboardController::class,'clearNotification'])->name('clear-notification');
+
+     /** Chat Routes */
+     Route::get('chat',[ChatController::class,'index'])->name('chat.index');
 
      /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');

@@ -1,10 +1,9 @@
 @extends('frontend.layouts.master')
 
 @section('content')
-
-<!--=============================
-        BREADCRUMB START
-    ==============================-->
+    <!--=============================
+            BREADCRUMB START
+        ==============================-->
     <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
@@ -19,13 +18,13 @@
         </div>
     </section>
     <!--=============================
-        BREADCRUMB END
-    ==============================-->
+            BREADCRUMB END
+        ==============================-->
 
 
     <!--=========================
-        DASHBOARD START
-    ==========================-->
+            DASHBOARD START
+        ==========================-->
     <section class="fp__dashboard mt_120 xs_mt_90 mb_100 xs_mb_70">
         <div class="container">
             <div class="fp__dashboard_area">
@@ -45,8 +44,9 @@
                             <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
                                 aria-orientation="vertical">
                                 <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home"
-                                    aria-selected="true"><span><i class="fas fa-user"></i></span> Personal Info</button>
+                                    data-bs-target="#v-pills-home" type="button" role="tab"
+                                    aria-controls="v-pills-home" aria-selected="true"><span><i
+                                            class="fas fa-user"></i></span> Personal Info</button>
 
                                 <button class="nav-link" id="v-pills-address-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-address" type="button" role="tab"
@@ -71,13 +71,20 @@
                                 <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-settings" type="button" role="tab"
                                     aria-controls="v-pills-settings" aria-selected="false"><span><i
+                                            class="far fa-comment-dots"></i></span> Message <b>7</b></button>
+
+                                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-settings" type="button" role="tab"
+                                    aria-controls="v-pills-settings" aria-selected="false"><span><i
                                             class="fas fa-user-lock"></i></span> Change Password </button>
 
                                 <form method="POST" action="{{ route('logout') }}">
                                     @csrf
-                                    <button  type="button" class="nav-link" onclick="event.preventDefault();
-                                        this.closest('form').submit();"><span> <i class="fas fa-sign-out-alt"></i>
-                                    </span> Logout</button>
+                                    <button type="button" class="nav-link"
+                                        onclick="event.preventDefault();
+                                        this.closest('form').submit();"><span>
+                                            <i class="fas fa-sign-out-alt"></i>
+                                        </span> Logout</button>
                                 </form>
                             </div>
                         </div>
@@ -91,6 +98,8 @@
                                 @include('frontend.dashboard.sections.address-section')
 
                                 @include('frontend.dashboard.sections.order-section')
+
+                                @include('frontend.dashboard.sections.message-section')
 
                                 <div class="tab-pane fade " id="v-pills-messages2" role="tabpanel"
                                     aria-labelledby="v-pills-messages-tab2">
@@ -122,7 +131,8 @@
                                                                 <li><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#cartModal"><i
                                                                             class="fas fa-shopping-basket"></i></a></li>
-                                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                                <li><a href="#"><i class="fal fa-heart"></i></a>
+                                                                </li>
                                                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                                                             </ul>
                                                         </div>
@@ -150,7 +160,8 @@
                                                                 <li><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#cartModal"><i
                                                                             class="fas fa-shopping-basket"></i></a></li>
-                                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                                <li><a href="#"><i class="fal fa-heart"></i></a>
+                                                                </li>
                                                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                                                             </ul>
                                                         </div>
@@ -179,7 +190,8 @@
                                                                 <li><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#cartModal"><i
                                                                             class="fas fa-shopping-basket"></i></a></li>
-                                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                                <li><a href="#"><i class="fal fa-heart"></i></a>
+                                                                </li>
                                                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                                                             </ul>
                                                         </div>
@@ -207,7 +219,8 @@
                                                                 <li><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#cartModal"><i
                                                                             class="fas fa-shopping-basket"></i></a></li>
-                                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                                <li><a href="#"><i class="fal fa-heart"></i></a>
+                                                                </li>
                                                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                                                             </ul>
                                                         </div>
@@ -235,7 +248,8 @@
                                                                 <li><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#cartModal"><i
                                                                             class="fas fa-shopping-basket"></i></a></li>
-                                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                                <li><a href="#"><i class="fal fa-heart"></i></a>
+                                                                </li>
                                                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                                                             </ul>
                                                         </div>
@@ -264,7 +278,8 @@
                                                                 <li><a href="#" data-bs-toggle="modal"
                                                                         data-bs-target="#cartModal"><i
                                                                             class="fas fa-shopping-basket"></i></a></li>
-                                                                <li><a href="#"><i class="fal fa-heart"></i></a></li>
+                                                                <li><a href="#"><i class="fal fa-heart"></i></a>
+                                                                </li>
                                                                 <li><a href="#"><i class="far fa-eye"></i></a></li>
                                                             </ul>
                                                         </div>
@@ -310,7 +325,8 @@
                                                 <div class="fp__single_comment m-0 border-0">
                                                     <img src="images/menu1.png" alt="review" class="img-fluid">
                                                     <div class="fp__single_comm_text">
-                                                        <h3><a href="#">mamun ahmed shuvo</a> <span>29 oct 2022 </span>
+                                                        <h3><a href="#">mamun ahmed shuvo</a> <span>29 oct 2022
+                                                            </span>
                                                         </h3>
                                                         <span class="rating">
                                                             <i class="fas fa-star"></i>
@@ -329,7 +345,8 @@
                                                 <div class="fp__single_comment">
                                                     <img src="images/menu2.png" alt=" review" class="img-fluid">
                                                     <div class="fp__single_comm_text">
-                                                        <h3><a href="#">asaduzzaman khan</a> <span>29 oct 2022 </span>
+                                                        <h3><a href="#">asaduzzaman khan</a> <span>29 oct 2022
+                                                            </span>
                                                         </h3>
                                                         <span class="rating">
                                                             <i class="fas fa-star"></i>
@@ -348,7 +365,8 @@
                                                 <div class="fp__single_comment">
                                                     <img src="images/menu3.png" alt="review" class="img-fluid">
                                                     <div class="fp__single_comm_text">
-                                                        <h3><a href="#">ariful islam rupom</a> <span>29 oct 2022 </span>
+                                                        <h3><a href="#">ariful islam rupom</a> <span>29 oct 2022
+                                                            </span>
                                                         </h3>
                                                         <span class="rating">
                                                             <i class="fas fa-star"></i>
@@ -425,20 +443,22 @@
                             <div class="details_size">
                                 <h5>select size</h5>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="large"
-                                        checked>
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="large" checked>
                                     <label class="form-check-label" for="large">
                                         large <span>+ $350</span>
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="medium">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="medium">
                                     <label class="form-check-label" for="medium">
                                         medium <span>+ $250</span>
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="flexRadioDefault" id="small">
+                                    <input class="form-check-input" type="radio" name="flexRadioDefault"
+                                        id="small">
                                     <label class="form-check-label" for="small">
                                         small <span>+ $150</span>
                                     </label>
@@ -483,35 +503,33 @@
     </div>
     <!-- CART POPUT END -->
     <!--=========================
-        DASHBOARD END
-    ==========================-->
-
+            DASHBOARD END
+        ==========================-->
 @endsection
 
 @push('scripts')
     <script>
-        $(document).ready(function(){
-            $('#upload').on('change', function(){
+        $(document).ready(function() {
+            $('#upload').on('change', function() {
                 let form = $('#avatar_form')[0];
                 let formData = new FormData(form);
 
                 $.ajax({
-                    method : 'POST',
+                    method: 'POST',
                     url: "{{ route('profile.avatar.update') }}",
                     data: formData,
                     processData: false,
                     contentType: false,
-                    success: function(response){
-                        if(response.status == 'success'){
+                    success: function(response) {
+                        if (response.status == 'success') {
                             window.location.reload();
                         }
                     },
-                    error: function(error){
+                    error: function(error) {
                         console.log(error);
                     }
                 })
             });
         });
     </script>
-
 @endpush
