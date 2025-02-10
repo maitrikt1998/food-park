@@ -74,7 +74,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
      /** Chat Routes */
      Route::get('chat',[ChatController::class,'index'])->name('chat.index');
-
+     Route::get('get-conversation/{userId}', [ChatController::class, 'getConversation'])->name('chat.get-conversation');
+     Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.send-message');
      /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
     Route::put('paypal-setting', [PaymentGatewaySettingController::class,'paypalSettingUpdate'])->name('paypal-setting.update');

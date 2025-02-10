@@ -31,7 +31,7 @@ window.Echo = new Echo({
     enabledTransports: ['ws', 'wss'],
 });
 
-console.log(pusherKey, pusherCluster);
+// console.log(pusherKey, pusherCluster);
 
 window.Echo.channel('order-placed')
     .listen('RTOorderPlacedNotificationEvent', (e) => {

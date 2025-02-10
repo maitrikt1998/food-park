@@ -4,26 +4,7 @@
             <h3>Message</h3>
             <div class="fp__chat_area">
                 <div class="fp__chat_body">
-                    {{-- <div class="fp__chating">
-                        <div class="fp__chating_img">
-                            <img src="images/service_provider.png" alt="person" class="img-fluid w-100">
-                        </div>
-                        <div class="fp__chating_text">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </p>
-                            <span>15 Jun, 2023, 05:26 AM</span>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="fp__chating tf_chat_right">
-                        <div class="fp__chating_img">
-                            <img src="images/client_img_1.jpg" alt="person" class="img-fluid w-100">
-                        </div>
-                        <div class="fp__chating_text">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                            </p>
-                            <span>15 Jun, 2023, 05:26 AM</span>
-                        </div>
-                    </div> --}}
+
                 </div>
                 <form class="fp__single_chat_bottom chat_input">
                     @csrf
@@ -42,6 +23,50 @@
 
     <script>
         $(document).ready(function(){
+            var userId = "{{ auth()->user()->id }}"
+
+            function scrollToBottom()
+            {
+                let chatContent = $('.fp__chat_body');
+                chatContent.scrollTop(chatContent.prop("scrollHeight"));
+            }
+
+            // fetch conversation
+            $('.fp_chat_message').on('click',function(e){
+                e.preventDefault();
+                let senderId = 1;
+                $('#receiver_id').val(senderId);
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("chat.get-conversation",":senderId") }}'.replace(":senderId",senderId),
+                    beforeSend: function(){
+
+                    },
+                    success:  function(response){
+                        $('.fp__chat_body').html('');
+                        $.each(response, function( index, message ) {
+                            let avatar = "{{ asset(':avatar') }}".replace(':avatar',message.sender.avatar);
+                            let html = `
+                                <div class="fp__chating ${message.sender_id == userId ? 'tf_chat_right':''} ">
+                                    <div class="fp__chating_img">
+                                        <img src="${avatar}" alt="person" class="img-fluid w-100">
+                                    </div>
+                                    <div class="fp__chating_text">
+                                        <p>${message.message}</p>
+                                    </div>
+                                </div>`;
+
+                            $('.fp__chat_body').append(html);
+                        })
+                        scrollToBottom()
+                    },
+                    error: function(xhr, status, error){
+
+                    }
+                })
+            })
+
+            // send message
             $('.chat_input').on('submit',function(e){
                 e.preventDefault();
                 let formData = $(this).serialize();
@@ -49,7 +74,7 @@
                     method:'POST',
                     url: "{{ route('chat.send-message') }}",
                     data: formData,
-                    success: function(response){
+                    beforeSend: function(){
                       let message = $('.fp_send_message').val();
                       let html = `
                         <div class="fp__chating tf_chat_right">
@@ -64,6 +89,10 @@
 
                      $('.fp__chat_body').append(html);
                      $('.fp_send_message').val('');
+                     scrollToBottom();
+                    },
+                    success: function(response){
+
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.error;

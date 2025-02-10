@@ -30,66 +30,42 @@
                                         </div>
                                         <div class="card-body">
                                             <ul class="list-unstyled list-unstyled-border">
-                                                <li class="media">
-                                                    <img alt="image" class="mr-3 rounded-circle" width="50"
-                                                        src="assets/img/avatar/avatar-1.png">
-                                                    <div class="media-body">
-                                                        <div class="mt-0 mb-1 font-weight-bold">Hasan Basri</div>
-                                                        <div class="text-success text-small font-600-bold"><i
-                                                                class="fas fa-circle"></i> Online</div>
-                                                    </div>
-                                                </li>
-                                                <li class="media">
-                                                    <img alt="image" class="mr-3 rounded-circle" width="50"
-                                                        src="assets/img/avatar/avatar-2.png">
-                                                    <div class="media-body">
-                                                        <div class="mt-0 mb-1 font-weight-bold">Bagus Dwi Cahya</div>
-                                                        <div class="text-small font-weight-600 text-muted"><i
-                                                                class="fas fa-circle"></i> Offline</div>
-                                                    </div>
-                                                </li>
-                                                <li class="media">
-                                                    <img alt="image" class="mr-3 rounded-circle" width="50"
-                                                        src="assets/img/avatar/avatar-3.png">
-                                                    <div class="media-body">
-                                                        <div class="mt-0 mb-1 font-weight-bold">Wildan Ahdian</div>
-                                                        <div class="text-small font-weight-600 text-success"><i
-                                                                class="fas fa-circle"></i> Online</div>
-                                                    </div>
-                                                </li>
-                                                <li class="media">
-                                                    <img alt="image" class="mr-3 rounded-circle" width="50"
-                                                        src="assets/img/avatar/avatar-4.png">
-                                                    <div class="media-body">
-                                                        <div class="mt-0 mb-1 font-weight-bold">Rizal Fakhri</div>
-                                                        <div class="text-small font-weight-600 text-success"><i
-                                                                class="fas fa-circle"></i> Online</div>
-                                                    </div>
-                                                </li>
+                                                @foreach ($senders as $sender)
+                                                    @php
+                                                        $chatuser = \App\Models\User::find($sender->sender_id);
+                                                        $unseenMessages = \App\Models\Chat::where(['sender_id' => $chatuser->id,
+                                                        'receiver_id' => auth()->user()->id, 'seen' => 0 ])->count();
+                                                    @endphp
+                                                    <li class="media fp_chat_user" data-name="{{ $chatuser->name }}" data-user="{{ $chatuser->id }}" style="cursor:pointer;">
+                                                        <img alt="image" class="mr-3 rounded-circle" width="50"
+                                                            src="{{ asset($chatuser->avatar) }}" style="width: 50px; height: 50px; object-fit:cover;">
+                                                        <div class="media-body">
+                                                            <div class="mt-0 mb-1 font-weight-bold"> {{  $chatuser->name }}</div>
+                                                            <div class="text-success text-small font-600-bold got_new_message">
+                                                                @if($unseenMessages > 0)
+                                                                    <i class = "beep"></i> new messages
+                                                                @endif
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                @endforeach
                                             </ul>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 col-sm-6 col-lg-9">
-                                    <div class="card chat-box" id="mychatbox" style="height: 70vh">
+                                    <div class="card chat-box" id="mychatbox" data-inbox="" style="height: 70vh">
                                         <div class="card-header">
-                                            <h4>Chat with Rizal</h4>
+                                            <h4 id="chat_header"></h4>
                                         </div>
                                         <div class="card-body chat-content">
-                                            <div class="chat-item chat-left" style=""><img src="../dist/img/avatar/avatar-1.png">
-                                                <div class="chat-detail">
-                                                    <div class="chat-text">Hi, due!</div><div class="chat-time">01:31</div>
-                                                </div>
-                                            </div>
-                                            <div class="chat-item chat-right" style=""><img src="../dist/img/avatar/avatar-2.png">
-                                                <div class="chat-detail">
-                                                    <div class="chat-text">Hello!</div><div class="chat-time">01:31</div>
-                                                </div>
-                                            </div>
+
                                         </div>
                                         <div class="card-footer chat-form">
                                             <form id="chat-form">
-                                                <input type="text" class="form-control" placeholder="Type a message">
+                                                @csrf
+                                                <input type="text" class="form-control fp_send_message" placeholder="Type a message" name="message">
+                                                <input type="hidden" name="receiver_id" id="receiver_id" value="receiver_id">
                                                 <button class="btn btn-primary">
                                                     <i class="far fa-paper-plane"></i>
                                                 </button>
@@ -105,3 +81,100 @@
         </div>
     </div>
 @endsection
+
+
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            var userId = "{{ auth()->user()->id }}";
+            var avatar = "{{ asset(auth()->user()->avatar) }}";
+
+            function scrollToBottom()
+            {
+                let chatContent = $('.chat-content');
+                chatContent.scrollTop(chatContent.prop("scrollHeight"));
+            }
+
+            $('#receiver_id').val('');
+
+            // fetch conversation
+            $('.fp_chat_user').on('click',function(){
+                let senderId = $(this).data('user');
+                let senderName = $(this).data('name');
+                let clickedElement = $(this);
+                $('#mychatbox').attr('data-inbox', senderId);
+                $('#receiver_id').val(senderId);
+                $.ajax({
+                    method: 'GET',
+                    url: '{{ route("admin.chat.get-conversation",":senderId") }}'.replace(":senderId",senderId),
+                    beforeSend: function(){
+                        $('.chat-content').empty();
+                        $('#chat_header').text('Chat With '+senderName);
+                    },
+                    success:  function(response){
+                        $('.chat-content').empty();
+                        $.each(response, function( index, message ) {
+                            let avatar = "{{ asset(':avatar') }}".replace(':avatar',message.sender.avatar);
+                            let html = `
+                                <div class="chat-item ${message.sender_id == userId ? 'chat-right' : 'chat-left'}" style=""><img src="${avatar}" style="height:50px;width:50px;object-fit:cover;">
+                                    <div class="chat-details">
+                                        <div class="chat-text">${message.message}</div>
+                                    </div>
+                                </div>`;
+
+                            $('.chat-content').append(html);
+                        })
+
+                        clickedElement.find('.got_new_message').html("");
+                        scrollToBottom();
+
+
+                        $('.fp_chat_user').each(function(){
+                            let senderId = $(this).data('user');
+                            if($('#mychatbox').attr('data-inbox') == senderId){
+                                $(this).find('.got_new_message').html("");
+                            }
+                        })
+                    },
+                    error: function(xhr, status, error){
+
+                    }
+                })
+            });
+
+            // send message
+            $('#chat-form').on('submit',function(e){
+                e.preventDefault();
+                let formData = $(this).serialize();
+                $.ajax({
+                    method:'POST',
+                    url: "{{ route('admin.chat.send-message') }}",
+                    data: formData,
+                    beforeSend: function(){
+                      let message = $('.fp_send_message').val();
+                      let html = `
+                                <div class="chat-item chat-right" style=""><img src="${avatar}">
+                                    <div class="chat-detail">
+                                        <div class="chat-text">${message}</div><div class="chat-time">sending...</div>
+                                    </div>
+                                </div>`;
+
+                     $('.chat-content').append(html);
+                     $('.fp_send_message').val('');
+                     scrollToBottom();
+                    },
+                    success: function(resposne){
+
+                    },
+                    error: function(xhr, status, error){
+                        let errors = xhr.responseJSON.error;
+                        $.each(errors, function(key, value){
+                            toastr.error(value);
+                        });
+                    }
+                })
+
+            });
+        })
+    </script>
+@endpush

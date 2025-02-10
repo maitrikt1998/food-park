@@ -6887,3 +6887,8 @@ CHECKOUT PAGE START
 /*============================
     Message END
 ============================*/
+
+.beep::after{
+    width:9px;
+    height:9px;
+}
