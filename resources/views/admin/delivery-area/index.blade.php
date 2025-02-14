@@ -3,12 +3,12 @@
 @section('content')
 <div class="section">
     <div class="section-header">
-        <h1>Coupons</h1>
+        <h1>Delivery Area</h1>
     </div>
     <div class="col-12 col-md-12 col-lg-12">
         <div class="card card-primary">
           <div class="card-header">
-            <h4>All Coupons</h4>
+            <h4>All Delivery Area</h4>
             <div class="card-header-action">
               <a href="{{ route('admin.delivery-area.create') }}" class="btn btn-primary">
                 Create New

@@ -101,13 +101,23 @@ if (!function_exists('grandCartTotal')) {
     }
 }
 
+/* Generate random number for invoice */
 if (!function_exists('generateInvoiceId')) {
     function generateInvoiceId()
     {
         $randomNumber = rand(1, 9999);
         $currentDateTime = now();
         $invoiceId = $randomNumber.$currentDateTime->format('yd').$currentDateTime->format('s');
-        
+
         return $invoiceId;
+    }
+}
+
+/* Get product discount in percent */
+if (!function_exists('discountInPercent')) {
+    function discountInPercent($originalPrice, $discountPrice)
+    {
+        $result = (($originalPrice - $discountPrice) / $originalPrice) * 100;
+        return round($result, 2);
     }
 }

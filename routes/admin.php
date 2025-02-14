@@ -16,6 +16,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\DailyOfferController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -76,7 +77,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
      Route::get('chat',[ChatController::class,'index'])->name('chat.index');
      Route::get('get-conversation/{userId}', [ChatController::class, 'getConversation'])->name('chat.get-conversation');
      Route::post('chat/send-message', [ChatController::class, 'sendMessage'])->name('chat.send-message');
-     /** Payment Gateway setting Routes */
+
+     /** Daily Offer Routes */
+    Route::get('daily-offer/product-search',[DailyOfferController::class,'productSearch'])->name('daily-offer.search-product');
+    Route::put('daily-offer-title-update',[DailyOfferController::class, 'updateTitle'])->name('daily-offer-title.update');
+    Route::resource('daily-offer', DailyOfferController::class);
+    /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
     Route::put('paypal-setting', [PaymentGatewaySettingController::class,'paypalSettingUpdate'])->name('paypal-setting.update');
     Route::put('stripe-setting', [PaymentGatewaySettingController::class,'stripeSettingUpdate'])->name('stripe-setting.update');
