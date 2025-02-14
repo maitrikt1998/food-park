@@ -9,7 +9,7 @@
                 <form class="fp__single_chat_bottom chat_input">
                     @csrf
                     <label for="select_file"><i class="far fa-file-medical" aria-hidden="true"></i></label>
-                    <input id="select_file" type="file" hidden="">
+                    <input type="hidden" name="msg_temp_id" class="msg_temp_id" value="">
                     <input type="text" placeholder="Type a message..." name="message" class="fp_send_message">
                     <input type="hidden" name="receiver_id" value="1">
                     <button class="fp__massage_btn" type="submit"><i class="fas fa-paper-plane" aria-hidden="true"></i></button>
@@ -23,7 +23,7 @@
 
     <script>
         $(document).ready(function(){
-            var userId = "{{ auth()->user()->id }}"
+            var userId = "{{ auth()->user()->id }}";
 
             function scrollToBottom()
             {
@@ -32,10 +32,10 @@
             }
 
             // fetch conversation
-            $('.fp_chat_message').on('click',function(e){
-                e.preventDefault();
+            $('.fp_chat_message').on('click',function(){
+                // e.preventDefault();
                 let senderId = 1;
-                $('#receiver_id').val(senderId);
+                // $('#receiver_id').val(senderId);
                 $.ajax({
                     method: 'GET',
                     url: '{{ route("chat.get-conversation",":senderId") }}'.replace(":senderId",senderId),
@@ -43,7 +43,7 @@
 
                     },
                     success:  function(response){
-                        $('.fp__chat_body').html('');
+                        $('.fp__chat_body').empty();
                         $.each(response, function( index, message ) {
                             let avatar = "{{ asset(':avatar') }}".replace(':avatar',message.sender.avatar);
                             let html = `
@@ -57,6 +57,7 @@
                                 </div>`;
 
                             $('.fp__chat_body').append(html);
+                            $('.unseen-message-count').text(0);
                         })
                         scrollToBottom()
                     },
@@ -69,12 +70,18 @@
             // send message
             $('.chat_input').on('submit',function(e){
                 e.preventDefault();
+                console.log("Messages sent...");
+                var MsgId = Math.floor(Math.random() * (1 - 10000 +1 )) + 1000;
+                $('.msg_temp_id').val(MsgId);
+
+
                 let formData = $(this).serialize();
                 $.ajax({
                     method:'POST',
                     url: "{{ route('chat.send-message') }}",
                     data: formData,
                     beforeSend: function(){
+
                       let message = $('.fp_send_message').val();
                       let html = `
                         <div class="fp__chating tf_chat_right">
@@ -83,7 +90,7 @@
                             </div>
                             <div class="fp__chating_text">
                                 <p>${message}</p>
-                                <small>sending...</small>
+                                <small class="msg_sending ${MsgId}">sending...</small>
                             </div>
                         </div>`;
 
@@ -92,7 +99,9 @@
                      scrollToBottom();
                     },
                     success: function(response){
-
+                        if($('.msg_temp_id').val() == response.MsgId){
+                            $('.'+MsgId).remove();
+                        }
                     },
                     error: function(xhr, status, error){
                         let errors = xhr.responseJSON.error;

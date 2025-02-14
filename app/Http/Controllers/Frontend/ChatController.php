@@ -29,7 +29,7 @@ class ChatController extends Controller
         $senderId = Auth::user()->id;
         broadcast(new ChatEvent($request->message, $avatar, $request->receiver_id, $senderId))->toOthers();
 
-        return response(['status' => 'success'], 200);
+        return response(['status' => 'success', 'MsgId' => $request->msg_temp_id], 200);
     }
 
     function getConversation(string $senderId) : Response
@@ -41,6 +41,9 @@ class ChatController extends Controller
             ->whereIn('receiver_id', [$senderId, $receiverId])
             ->orderBy('created_at','asc')
             ->get();
+
+        Chat::where('sender_id', $senderId)->where('receiver_id',$receiverId)
+            ->where('seen' , 0) -> update(['seen' => 1]);
         return response($messages);
     }
 }

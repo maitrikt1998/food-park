@@ -3,13 +3,14 @@ function scrollToBottom()
     let chatContent = $('.chat-content');
     chatContent.scrollTop(chatContent.prop("scrollHeight"));
 }
-window.Echo.private('chat.'+loggedInUserId)
-    .listen('ChatEvent', (e) => {
+window.Echo.private("chat."+loggedInUserId).listen(
+    "ChatEvent",
+    (e) => {
             if(e.senderId == $('#mychatbox').attr('data-inbox')){
                 let html = `
                 <div class="chat-item chat-left" style=""><img src="${e.avatar}" style="height:50px;width:50px;object-fit:cover;">
                     <div class="chat-details">
-                        <div class="chat-text">${e.message}</div><div class="chat-time">sending...</div>
+                        <div class="chat-text">${e.message}</div>
                     </div>
                 </div>`;
 
@@ -25,4 +26,6 @@ window.Echo.private('chat.'+loggedInUserId)
                     $(this).find('.got_new_message').html(html);
                 }
             })
+
+            $('.message-envelope').addClass('beep');
     });

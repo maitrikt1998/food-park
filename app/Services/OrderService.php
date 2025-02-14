@@ -8,7 +8,6 @@ class OrderService {
     /** store Order in database */
     function  createOrder(){
         try{
-
             $order = new Order();
             $order->invoice_id = generateInvoiceId();
             $order->user_id =  auth()->user()->id;
@@ -41,9 +40,9 @@ class OrderService {
             }
             // putting the order id in session
             session()->put('order_id',$order->id);
-            // putting grand total amount 
+            // putting grand total amount
             session()->put('grand_total',$order->grand_total);
-            return true;    
+            return true;
         }catch(\Exception $e){
             logger($e);
             return false;

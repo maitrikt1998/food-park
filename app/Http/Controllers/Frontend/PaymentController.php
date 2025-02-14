@@ -146,7 +146,7 @@ class PaymentController extends Controller
         $provider = new PayPalClient($config);
         $provider->getAccessToken();
         $response = $provider->capturePaymentOrder($request->token);
-        if(isset($respose['status']) && $response['status'] === 'COMPLETED'){
+        if(isset($response['status']) && $response['status'] === 'COMPLETED'){
             $orderId = session()->get('order_id');
             $capture = $response['purchase_units'][0]['payments']['captures'][0];
             $paymentInfo = [
@@ -158,12 +158,14 @@ class PaymentController extends Controller
             OrderPaymentUpdateEvent::dispatch($orderId,$paymentInfo,'PayPal');
             OrderPlacedNotificationEvent::dispatch($orderId);
             RTOorderPlacedNotificationEvent::dispatch(Order::find($orderId));
+
             /** Clear Session  Data*/
             $orderService->clearSession();
 
             return redirect()->route('payment.success');
         }else{
-            return redirect()->route('payment.cancel')->withErrors(['error' =>$response['error']['message']]);
+            $this->transactionFailUpdateStatus('PayPal');
+            return redirect()->route('payment.cancel')->withErrors(['errors' =>$response]);
         }
     }
 
