@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentGatewaySettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AppDownloadSectionController;
 use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
@@ -91,6 +92,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
     /** Chef Routes */
     Route::resource('chefs', ChefController::class);
+
+    /** App Download Routes */
+    Route::get('app-download',[AppDownloadSectionController::class,'index'])->name('app-download.index');
+    Route::post('app-download', [AppDownloadSectionController::class,'store'])->name('app-download.store');
 
     /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
