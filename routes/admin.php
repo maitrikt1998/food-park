@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentGatewaySettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductGalleryController;
@@ -16,6 +17,7 @@ use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Http\Controllers\Admin\ChatController;
+use App\Http\Controllers\Admin\ChefController;
 use App\Http\Controllers\Admin\DailyOfferController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -81,7 +83,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
      /** Daily Offer Routes */
     Route::get('daily-offer/product-search',[DailyOfferController::class,'productSearch'])->name('daily-offer.search-product');
     Route::put('daily-offer-title-update',[DailyOfferController::class, 'updateTitle'])->name('daily-offer-title.update');
+    Route::put('chefs-title-update',[ChefController::class, 'updateTitle'])->name('chef-title.update');
     Route::resource('daily-offer', DailyOfferController::class);
+
+    /** Banner Slider Routes */
+    Route::resource('banner-slider', BannerSliderController::class);
+
+    /** Chef Routes */
+    Route::resource('chefs', ChefController::class);
+
     /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
     Route::put('paypal-setting', [PaymentGatewaySettingController::class,'paypalSettingUpdate'])->name('paypal-setting.update');

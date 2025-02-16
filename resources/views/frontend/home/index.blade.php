@@ -43,7 +43,7 @@
     <!--=============================
         ADD SLIDER START
     ==============================-->
-   {{-- @include('frontend.home.components.ad-slider') --}}
+   @include('frontend.home.components.ad-slider')
     <!--=============================
         ADD SLIDER END
     ==============================-->
@@ -52,7 +52,7 @@
     <!--=============================
         TEAM START
     ==============================-->
-    {{-- @include('frontend.home.components.team') --}}
+    @include('frontend.home.components.team')
     <!--=============================
         TEAM END
     ==============================-->

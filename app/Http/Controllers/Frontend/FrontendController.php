@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\BannerSlider;
 use App\Models\Category;
+use App\Models\Chef;
 use App\Models\Coupon;
 use App\Models\DailyOffer;
 use Illuminate\Http\Request;
@@ -21,14 +23,14 @@ class FrontendController extends Controller
     public function index()
     {
         $sectionTitles = $this->getSectionTitle();
-
         $sliders = Slider::where('status',1)->get();
         $whyChooseUs = WhyChooseUs::where('status', 1)->get();
 
         $categories = Category::where(['show_at_home' => 1, 'status' => 1])->get();
         $dailyOffers = DailyOffer::with('product')->where('status',1)->take(15)->get();
-
-        return view('frontend.home.index',compact('sliders','sectionTitles', 'whyChooseUs', 'categories','dailyOffers'));
+        $bannerSliders = BannerSlider::where('status', 1)->latest()->take(10)->get();
+        $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
+        return view('frontend.home.index',compact('sliders','sectionTitles', 'whyChooseUs', 'categories','dailyOffers','bannerSliders','chefs'));
     }
 
     function getSectionTitle() : Collection
@@ -40,8 +42,17 @@ class FrontendController extends Controller
             'daily_offer_top_title',
             'daily_offer_main_title',
             'daily_offer_sub_title',
+            'chefs_top_title',
+            'chefs_main_title',
+            'chefs_sub_title'
         ];
         return SectionTitle::whereIn('key',$keys)->pluck('value','key');
+    }
+
+    function chef()
+    {
+        $chefs = Chef::where(['status' => 1])->paginate(1);
+        return view('frontend.pages.chef',compact('chefs'));
     }
 
     function showProduct(string $slug) : View
