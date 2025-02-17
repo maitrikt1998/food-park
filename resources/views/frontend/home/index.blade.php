@@ -70,7 +70,7 @@
     <!--=============================
        TESTIMONIAL  START
     ==============================-->
-    {{-- @include('frontend.home.components.testimonial') --}}
+    @include('frontend.home.components.testimonial')
     <!--=============================
         TESTIMONIAL END
     ==============================-->
@@ -79,7 +79,7 @@
     <!--=============================
         COUNTER START
     ==============================-->
-    {{-- @include('frontend.home.components.counter') --}}
+    @include('frontend.home.components.counter')
     <!--=============================
         COUNTER END
     ==============================-->

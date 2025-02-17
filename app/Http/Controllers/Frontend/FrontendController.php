@@ -7,12 +7,14 @@ use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\Category;
 use App\Models\Chef;
+use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\DailyOffer;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\SectionTitle;
+use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
@@ -32,7 +34,9 @@ class FrontendController extends Controller
         $bannerSliders = BannerSlider::where('status', 1)->latest()->take(10)->get();
         $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
         $appSection = AppDownloadSection::first();
-        return view('frontend.home.index',compact('sliders','sectionTitles', 'whyChooseUs', 'categories','dailyOffers','bannerSliders','chefs','appSection'));
+        $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
+        $counter = Counter::first();
+        return view('frontend.home.index',compact('sliders','sectionTitles', 'whyChooseUs', 'categories','dailyOffers','bannerSliders','chefs','appSection','testimonials','counter'));
     }
 
     function getSectionTitle() : Collection
@@ -46,7 +50,10 @@ class FrontendController extends Controller
             'daily_offer_sub_title',
             'chefs_top_title',
             'chefs_main_title',
-            'chefs_sub_title'
+            'chefs_sub_title',
+            'testimonial_top_title',
+            'testimonial_main_title',
+            'testimonial_sub_title',
         ];
         return SectionTitle::whereIn('key',$keys)->pluck('value','key');
     }
@@ -55,6 +62,12 @@ class FrontendController extends Controller
     {
         $chefs = Chef::where(['status' => 1])->paginate(1);
         return view('frontend.pages.chef',compact('chefs'));
+    }
+
+    function testimonial()
+    {
+        $testimonials = Testimonial::where(['status' => 1])->paginate(9);
+        return view('frontend.pages.testimonial',compact('testimonials'));
     }
 
     function showProduct(string $slug) : View

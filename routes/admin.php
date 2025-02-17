@@ -19,7 +19,9 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
+use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DailyOfferController;
+use App\Http\Controllers\Admin\TestimonialController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -96,6 +98,15 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /** App Download Routes */
     Route::get('app-download',[AppDownloadSectionController::class,'index'])->name('app-download.index');
     Route::post('app-download', [AppDownloadSectionController::class,'store'])->name('app-download.store');
+
+    /** Testimonial Routes */
+    Route::put('testimonial-title-update',[TestimonialController::class, 'updateTitle'])->name('testimonial-title.update');
+    Route::resource('testimonial', TestimonialController::class);
+
+    /** Counter Routes */
+    Route::get('counter', [CounterController::class,'index'])->name('counter.index');
+    Route::put('counter', [CounterController::class,'update'])->name('counter.update');
+
 
     /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
