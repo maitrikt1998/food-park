@@ -54,6 +54,13 @@ Route::get('/chef', [FrontendController::class, 'chef'])->name('chef');
 /** show testimonial page */
 Route::get('/testimonial', [FrontendController::class, 'testimonial'])->name('testimonial');
 
+/** About Routes */
+Route::get('/about', [FrontendController::class, 'about'])->name('about');
+/** Privacy Policy Routes */
+Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->name('privacy-policy');
+/** Terms and condition Routes */
+Route::get('/terms-and-conditions', [FrontendController::class, 'termsAndConditions'])->name('terms-and-conditions');
+
 /** Show Product detail page */
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 

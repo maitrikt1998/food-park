@@ -140,6 +140,17 @@
                 </ul>
             </li>
 
+            <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                    <span>Pages</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('admin.about.index') }}">About</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.privacy-policy.index') }}">Privacy Policy</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.terms-and-condition.index') }}">Terms & Condition</a></li>
+
+                </ul>
+            </li>
+
             <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i> <span>Settings</span></a></li>
 
 

@@ -13,7 +13,7 @@
                     <a class="nav-link active" aria-current="page" href="{{ url('/') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="about.html">about</a>
+                    <a class="nav-link" href="{{ route('about') }}">about</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="menu.html">menu</a>
@@ -36,8 +36,8 @@
                         <li><a href="sign_in.html">sign in</a></li>
                         <li><a href="sign_up.html">sign up</a></li>
                         <li><a href="forgot_password.html">forgot password</a></li>
-                        <li><a href="privacy_policy.html">privacy policy</a></li>
-                        <li><a href="terms_condition.html">terms and condition</a></li>
+                        <li><a href="{{ route('privacy-policy') }}">privacy policy</a></li>
+                        <li><a href="{{ route('terms-and-conditions') }}">terms and condition</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">

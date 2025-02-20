@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AboutController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Admin\DeliveryAreaController;
 use App\Http\Controllers\Admin\OrderController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DailyOfferController;
+use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\TermsAndConditionController;
 use App\Http\Controllers\Admin\TestimonialController;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -107,6 +110,17 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('counter', [CounterController::class,'index'])->name('counter.index');
     Route::put('counter', [CounterController::class,'update'])->name('counter.update');
 
+    /** About Routes */
+    Route::get('/about', [AboutController::class,'index'])->name('about.index');
+    Route::put('/about', [AboutController::class,'update'])->name('about.update');
+
+    /** Privacy Policy Routes */
+    Route::get('/privacy-policy', [PrivacyPolicyController::class,'index'])->name('privacy-policy.index');
+    Route::put('/privacy-policy', [PrivacyPolicyController::class,'update'])->name('privacy-policy.update');
+
+    /** terms and condition  Routes */
+    Route::get('/terms-and-condition', [TermsAndConditionController::class,'index'])->name('terms-and-condition.index');
+    Route::put('/terms-and-condition', [TermsAndConditionController::class,'update'])->name('terms-and-condition.update');
 
     /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');

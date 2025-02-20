@@ -121,3 +121,21 @@ if (!function_exists('discountInPercent')) {
         return round($result, 2);
     }
 }
+
+/* Get Youtube thumbnail */
+if (!function_exists('getYtThumbnail')) {
+    function getYtThumbnail($link, $size = 'medium')
+    {
+        $videoId = explode("?v=", $link);
+        $videoId = $videoId[1];
+
+        $finalSize = match($size){
+            'low' => 'sdefault',
+            'medium' => 'mdefault',
+            'high' => 'hdefault',
+            'max' => 'maxresdefault',
+        };
+
+        return "https://img.youtube.com/vi/$videoId/$finalSize.jpg";
+    }
+}

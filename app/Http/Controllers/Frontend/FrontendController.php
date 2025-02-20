@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Models\About;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\Category;
@@ -10,10 +11,12 @@ use App\Models\Chef;
 use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\DailyOffer;
+use App\Models\PrivacyPolicy;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Product;
 use App\Models\SectionTitle;
+use App\Models\TermsAndCondition;
 use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use Illuminate\Contracts\View\View;
@@ -68,6 +71,42 @@ class FrontendController extends Controller
     {
         $testimonials = Testimonial::where(['status' => 1])->paginate(9);
         return view('frontend.pages.testimonial',compact('testimonials'));
+    }
+
+    function about()
+    {
+        $keys = [
+            'why_choose_top_title',
+            'why_choose_main_title',
+            'why_choose_sub_title',
+            'chefs_top_title',
+            'chefs_main_title',
+            'chefs_sub_title',
+            'testimonial_top_title',
+            'testimonial_main_title',
+            'testimonial_sub_title',
+        ];
+        $sectionTitles = SectionTitle::whereIn('key',$keys)->pluck('value','key');
+
+        $about = About::first();
+        $whyChooseUs = WhyChooseUs::where('status', 1)->get();
+        $chefs = Chef::where(['show_at_home' => 1, 'status' => 1])->get();
+        $counter = Counter::first();
+        $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
+
+        return view('frontend/pages/about',compact('about', 'whyChooseUs', 'sectionTitles', 'chefs', 'counter', 'testimonials'));
+    }
+
+    function privacyPolicy()
+    {
+        $privacy_policy =  PrivacyPolicy::first();
+        return view('frontend.pages.privacy-policy', compact('privacy_policy'));
+    }
+
+    function termsAndConditions()
+    {
+        $terms_condition =  TermsAndCondition::first();
+        return view('frontend.pages.terms-and-condition', compact('terms_condition'));
     }
 
     function showProduct(string $slug) : View
