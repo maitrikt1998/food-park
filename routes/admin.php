@@ -20,8 +20,11 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
+use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DailyOfferController;
+use App\Http\Controllers\Admin\FooterInfoController;
+use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\TermsAndConditionController;
@@ -124,8 +127,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('/terms-and-condition', [TermsAndConditionController::class,'index'])->name('terms-and-condition.index');
     Route::put('/terms-and-condition', [TermsAndConditionController::class,'update'])->name('terms-and-condition.update');
 
+     /** terms and condition  Routes */
+     Route::get('/contact', [ContactController::class,'index'])->name('contact.index');
+     Route::put('/contact', [ContactController::class,'update'])->name('contact.update');
+
     /** Social Link  Routes */
     Route::resource('social-link', SocialLinkController::class);
+
+    /** Footer Info Routes */
+    Route::get('footer-info', [FooterInfoController::class,'index'])->name('footer-info.index');
+    Route::put('footer-info', [FooterInfoController::class,'update'])->name('footer-info.update');
+
+     /** News Letter  Routes */
+     Route::get('news-letter', [NewsLetterController::class,'index'])->name('news-letter.index');
+     Route::post('news-letter', [NewsLetterController::class,'sendNewsLetter'])->name('news-letter.send');
 
     /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
@@ -137,6 +152,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('setting', [SettingController::class,'index'])->name('setting.index');
     Route::put('general-setting', [SettingController::class,'updateGeneralSetting'])->name('general-setting.update');
     Route::put('pusher-setting', [SettingController::class,'updatePusherSetting'])->name('pusher-setting.update');
+    Route::put('mail-setting', [SettingController::class,'updateMailSetting'])->name('mail-setting.update');
 
 
 });

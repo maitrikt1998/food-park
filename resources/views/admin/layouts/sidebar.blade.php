@@ -126,6 +126,7 @@
 
             <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i> <span>Messages</span></a></li>
 
+            <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i> <span>News Letter</span></a></li>
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
@@ -149,12 +150,21 @@
                     <li><a class="nav-link" href="{{ route('admin.about.index') }}">About</a></li>
                     <li><a class="nav-link" href="{{ route('admin.privacy-policy.index') }}">Privacy Policy</a></li>
                     <li><a class="nav-link" href="{{ route('admin.terms-and-condition.index') }}">Terms & Condition</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.contact.index') }}">Contact</a></li>
+                </ul>
+            </li>
 
+
+            <li class="dropdown">
+                <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
+                    <span>Footer</span></a>
+                <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('admin.footer-info.index') }}">Footer Info</a></li>
                 </ul>
             </li>
 
             <li><a class="nav-link" href="{{ route('admin.setting.index') }}"><i class="far fa-square"></i> <span>Settings</span></a></li>
-
+        </ul>
 
             {{-- <li class=active><a class="nav-link" href="index-0.html"><i class="fas fa-fire"></i>General Dashboard</a>
             </li>
@@ -171,7 +181,7 @@
             </li>
             <li><a class="nav-link" href="blank.html"><i class="far fa-square"></i> <span>Blank Page</span></a></li> --}}
 
-        </ul>
+
 
 
     </aside>

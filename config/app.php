@@ -171,6 +171,7 @@ return [
         App\Providers\SettingsServiceProvider::class,
         App\Providers\PaymentGatewaySettingsServiceProvider::class,
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class,
+        App\Providers\CustomMailServiceProvider::class,
     ])->toArray(),
 
     /*

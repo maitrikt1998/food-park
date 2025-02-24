@@ -8,6 +8,7 @@ use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
 use App\Models\Category;
 use App\Models\Chef;
+use App\Models\Contact;
 use App\Models\Counter;
 use App\Models\Coupon;
 use App\Models\DailyOffer;
@@ -19,6 +20,7 @@ use App\Models\SectionTitle;
 use App\Models\TermsAndCondition;
 use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
+use App\Models\Subscriber;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
@@ -107,6 +109,28 @@ class FrontendController extends Controller
     {
         $terms_condition =  TermsAndCondition::first();
         return view('frontend.pages.terms-and-condition', compact('terms_condition'));
+    }
+
+    function contact()
+    {
+        $contact = Contact::first();
+        return view('frontend.pages.contact',compact('contact'));
+    }
+    function subscribeNewsletter(Request $request): Response
+    {
+        $request->validate([
+            'email'=> ['required','email','max:255','unique:subscribers,email']
+        ],[
+            'email.required' => 'Email is required',
+            'email.email' => 'Email is not valid',
+            'email.unique' => 'Email is already SUbscribed!',
+        ]);
+
+        $subscriber = new Subscriber();
+        $subscriber->email = $request->email;
+        $subscriber->save();
+
+        return response(['status' => 'success', 'message' => 'Subscribed Successfully!']);
     }
 
     function showProduct(string $slug) : View

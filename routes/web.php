@@ -61,6 +61,10 @@ Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->nam
 /** Terms and condition Routes */
 Route::get('/terms-and-conditions', [FrontendController::class, 'termsAndConditions'])->name('terms-and-conditions');
 
+/** Terms and condition Routes */
+Route::get('/contact', [FrontendController::class, 'contact'])->name('conatct');
+/** Newsletter Routes */
+Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('subscribe-newsletter');
 /** Show Product detail page */
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 

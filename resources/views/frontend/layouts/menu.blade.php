@@ -44,7 +44,7 @@
                     <a class="nav-link" href="blogs.html">blog</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="contact.html">contact</a>
+                    <a class="nav-link" href="{{ route('conatct') }}">contact</a>
                 </li>
             </ul>
             <ul class="menu_icon d-flex flex-wrap">

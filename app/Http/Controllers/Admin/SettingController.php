@@ -8,6 +8,7 @@ use App\Services\SettingService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class SettingController extends Controller
 {
@@ -62,4 +63,34 @@ class SettingController extends Controller
 
         return redirect()->back();
     }
+
+    function updateMailSetting(Request $request): RedirectResponse
+    {
+        $validatedData = $request->validate([
+            'mail_driver' => ['required'],
+            'mail_host' => ['required'],
+            'mail_port' => ['required'],
+            'mail_username' => ['required'],
+            'mail_password' => ['required'],
+            'mail_encryption' => ['required'],
+            'mail_from_address' => ['required'],
+            'mail_receive_address' => ['required'],
+        ]);
+
+        foreach ($validatedData as $key => $value) {
+            Setting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
+        }
+
+        $settingsService = app(SettingService::class);
+        $settingsService->clearCachedSettings();
+        Cache::forget('mail_settings');
+        toastr()->success('Updated Successfully!');
+
+        return redirect()->back();
+    }
+
+
 }
