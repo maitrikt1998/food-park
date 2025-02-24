@@ -23,8 +23,10 @@ use App\Http\Controllers\Admin\ChefController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DailyOfferController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\TermsAndConditionController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Models\SocialLink;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -121,6 +123,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /** terms and condition  Routes */
     Route::get('/terms-and-condition', [TermsAndConditionController::class,'index'])->name('terms-and-condition.index');
     Route::put('/terms-and-condition', [TermsAndConditionController::class,'update'])->name('terms-and-condition.update');
+
+    /** Social Link  Routes */
+    Route::resource('social-link', SocialLinkController::class);
 
     /** Payment Gateway setting Routes */
     Route::get('payment-gateway-setting', [PaymentGatewaySettingController::class,'index'])->name('payment-setting.index');
