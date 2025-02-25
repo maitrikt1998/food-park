@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Mail\ContactMail;
 use App\Models\About;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
@@ -24,6 +25,7 @@ use App\Models\Subscriber;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 
 class FrontendController extends Controller
 {
@@ -115,6 +117,19 @@ class FrontendController extends Controller
     {
         $contact = Contact::first();
         return view('frontend.pages.contact',compact('contact'));
+    }
+
+    function sendContactMessage(Request $request)
+    {
+        $request->validate([
+            'name' => ['required', 'max:50'],
+            'email' => ['required', 'email'],
+            'subject' => ['required', 'max:255'],
+            'message' => ['required', 'max:1000'],
+        ]);
+
+        Mail::send(new ContactMail($request->name, $request->email, $request->subject, $request->message));
+        return response(['status' => 'success', 'message' => 'Message send Successfully!']);
     }
     function subscribeNewsletter(Request $request): Response
     {

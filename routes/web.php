@@ -63,6 +63,7 @@ Route::get('/terms-and-conditions', [FrontendController::class, 'termsAndConditi
 
 /** Terms and condition Routes */
 Route::get('/contact', [FrontendController::class, 'contact'])->name('conatct');
+Route::post('/contact', [FrontendController::class, 'sendContactMessage'])->name('conatct.send-message');
 /** Newsletter Routes */
 Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('subscribe-newsletter');
 /** Show Product detail page */
