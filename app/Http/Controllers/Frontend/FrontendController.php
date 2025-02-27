@@ -7,6 +7,9 @@ use App\Mail\ContactMail;
 use App\Models\About;
 use App\Models\AppDownloadSection;
 use App\Models\BannerSlider;
+use App\Models\Blog;
+use App\Models\BlogCategory;
+use App\Models\BlogComment;
 use App\Models\Category;
 use App\Models\Chef;
 use App\Models\Contact;
@@ -25,6 +28,7 @@ use App\Models\WhyChooseUs;
 use App\Models\Subscriber;
 
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
@@ -79,6 +83,44 @@ class FrontendController extends Controller
     {
         $testimonials = Testimonial::where(['status' => 1])->paginate(9);
         return view('frontend.pages.testimonial',compact('testimonials'));
+    }
+
+    function blogs() : View
+    {
+        $blogs = Blog::with(['user','category'])->where('status', 1)->latest()->paginate(9);
+        return view('frontend.pages.blog',compact('blogs'));
+    }
+
+    function blogDetails(string $slug) : View
+    {
+        $blog = Blog::with(['user','category'])->where('slug', $slug)->where('status', 1)->firstOrFail();
+        $latestBlogs = Blog::select('id','slug','title','created_at','image')->where('status', 1)
+                        ->where('id','!=',$blog->id)->latest()->take(5)->get();
+        $categories = BlogCategory::withCount(['blogs'=> function($query){
+            $query->where('status', 1);
+        }])->where('status',1)->get();
+
+        $previousBlog = Blog::select('id','slug','title','image')->where('id','<',$blog->id)->orderBy('id','ASC')->first();
+        $nextBlog = Blog::select('id','slug','title','image')->where('id','>',$blog->id)->orderBy('id','DESC')->first();
+        return view('frontend.pages.blog-details',compact('blog','latestBlogs','categories','previousBlog','nextBlog'));
+    }
+
+    function blogCommentStore(Request $request, String $blog_id): RedirectResponse
+    {
+        $request->validate([
+            'comment' => ['required', 'max:500']
+        ]);
+
+        Blog::findOrFail($blog_id);
+
+        $comment = new BlogComment();
+        $comment->blog_id = $blog_id;
+        $comment->user_id = auth()->user()->id;
+        $comment->comment = $request->comment;
+        $comment->save();
+
+        toastr()->success("Comment Submitted Successfully and waiting to approve.");
+        return redirect()->back();
     }
 
     function about()

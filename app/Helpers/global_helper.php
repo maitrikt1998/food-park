@@ -122,6 +122,14 @@ if (!function_exists('discountInPercent')) {
     }
 }
 
+/* Truncate */
+if (!function_exists('truncate')) {
+    function truncate(string $string, int $limit = 100)
+    {
+        return \Str::limit($string, $limit, '...');
+    }
+}
+
 /* Get Youtube thumbnail */
 if (!function_exists('getYtThumbnail')) {
     function getYtThumbnail($link, $size = 'medium')

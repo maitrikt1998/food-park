@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
 use App\Http\Controllers\Admin\AppDownloadSectionController;
 use App\Http\Controllers\Admin\BannerSliderController;
+use App\Http\Controllers\Admin\BlogCategoryController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductGalleryController;
@@ -120,6 +122,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     /** About Routes */
     Route::get('/about', [AboutController::class,'index'])->name('about.index');
     Route::put('/about', [AboutController::class,'update'])->name('about.update');
+
+    /** Blog Routes */
+    Route::get('/blogs/comments', [BlogController::class,'blogComment'])->name('blog.comment');
+    Route::resource('blogs', BlogController::class);
+    Route::resource('blog-category', BlogCategoryController::class);
 
     /** Privacy Policy Routes */
     Route::get('/privacy-policy', [PrivacyPolicyController::class,'index'])->name('privacy-policy.index');
