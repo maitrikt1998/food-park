@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/select2/dist/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/summernote/summernote-bs4.css') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
-
+  <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
@@ -75,6 +75,7 @@
   <!-- Template JS File -->
   <script src="{{ asset('/admin/assets/js/scripts.js') }}"></script>
   <script src="{{ asset('/admin/assets/js/custom.js') }}"></script>
+  <script src="{{ asset('/admin/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
 
   <script>
     @if ($errors->any())

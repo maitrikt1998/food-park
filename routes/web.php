@@ -61,9 +61,13 @@ Route::get('/privacy-policy', [FrontendController::class, 'privacyPolicy'])->nam
 /** Terms and condition Routes */
 Route::get('/terms-and-conditions', [FrontendController::class, 'termsAndConditions'])->name('terms-and-conditions');
 
-/** Terms and condition Routes */
+/** Contact Routes */
 Route::get('/contact', [FrontendController::class, 'contact'])->name('conatct');
 Route::post('/contact', [FrontendController::class, 'sendContactMessage'])->name('conatct.send-message');
+
+/** Reservation Routes */
+Route::post('/reservation', [FrontendController::class, 'reservation'])->name('reservation.store');
+
 /** Newsletter Routes */
 Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('subscribe-newsletter');
 /** Show Product detail page */

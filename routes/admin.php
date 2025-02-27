@@ -26,6 +26,8 @@ use App\Http\Controllers\Admin\DailyOfferController;
 use App\Http\Controllers\Admin\FooterInfoController;
 use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
+use App\Http\Controllers\Admin\ReservationController;
+use App\Http\Controllers\Admin\ReservationTimeController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\TermsAndConditionController;
 use App\Http\Controllers\Admin\TestimonialController;
@@ -130,6 +132,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
      /** terms and condition  Routes */
      Route::get('/contact', [ContactController::class,'index'])->name('contact.index');
      Route::put('/contact', [ContactController::class,'update'])->name('contact.update');
+
+     Route::resource('reservation-time', ReservationTimeController::class);
+     Route::get('reservation', [ReservationController::class,'index'])->name('reservation.index');
+     Route::post('reservation', [ReservationController::class,'update'])->name('reservation.update');
+     Route::delete('reservation/{id}', [ReservationController::class,'destroy'])->name('reservation.delete');
 
     /** Social Link  Routes */
     Route::resource('social-link', SocialLinkController::class);

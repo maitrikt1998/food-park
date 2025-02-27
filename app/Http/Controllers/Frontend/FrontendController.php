@@ -17,15 +17,19 @@ use App\Models\PrivacyPolicy;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Product;
+use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\TermsAndCondition;
 use App\Models\Testimonial;
 use App\Models\WhyChooseUs;
 use App\Models\Subscriber;
+
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Validation\ValidationException;
 
 class FrontendController extends Controller
 {
@@ -146,6 +150,35 @@ class FrontendController extends Controller
         $subscriber->save();
 
         return response(['status' => 'success', 'message' => 'Subscribed Successfully!']);
+    }
+
+    function reservation(Request $request): Response
+    {
+        $request->validate([
+            'name' => ['required', 'max:255'],
+            'phone' => ['required', 'max:50'],
+            'date' => ['required',  'date'],
+            'time' => ['required'],
+            'person' => ['required', 'numeric'],
+        ]);
+
+        if(!Auth::check()){
+            throw ValidationException::WithMessages([
+               "Please Login to Request Reservation!"
+            ]);
+        }
+        $reservation = new Reservation();
+        $reservation->reservation_id = rand(0,5000);
+        $reservation->user_id = auth()->user()->id;
+        $reservation->name = $request->name;
+        $reservation->phone = $request->phone;
+        $reservation->date = $request->date;
+        $reservation->time = $request->time;
+        $reservation->persons = $request->person;
+        $reservation->status = 'pending';
+        $reservation->save();
+
+        return response(['status' => 'success', 'message' => 'Reservation send Successfully!']);
     }
 
     function showProduct(string $slug) : View
