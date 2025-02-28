@@ -4,10 +4,10 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\SliderDataTable;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\SliderUpdateRequest;
+use App\Http\Requests\SliderUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use App\Http\Requests\Admin\SliderCreateRequest;
+use App\Http\Requests\SliderCreateRequest;
 use App\Traits\FileUploadTrait;
 use Illuminate\Contracts\View\View;
 use App\Models\Slider;

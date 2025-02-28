@@ -12,8 +12,10 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Http\Requests\Admin\BlogCreateRequest;
 use App\Http\Requests\Admin\BlogUpdateRequest;
+use App\Models\BlogComment;
 use App\Traits\FileUploadTrait;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Response;
 use Str;
 
 class BlogController extends Controller
@@ -119,5 +121,26 @@ class BlogController extends Controller
     function blogComment(BlogCommentDataTable $dataTable) : View|JsonResponse
     {
         return $dataTable->render('admin.blog.blog-comment.index');
+    }
+
+    function commentStatusUpdate(string $id) : RedirectResponse
+    {
+        $comment = BlogComment::find($id);
+        $comment->status = !$comment->status;
+        $comment->save();
+        toastr()->success('Updated Successfully');
+        return redirect()->back();
+    }
+
+    function commentsDestroy(string $id)
+    {
+        try{
+            $comment = BlogComment::findOrFail($id);
+            $comment->delete();
+            toastr()->success('Deleted Successfully');
+            return response(['status'=>'success', 'message' => 'Deleted Successfully!']);
+        }catch(\Exception $e){
+            return response(['status'=>'error', 'message' => 'Something Went Wrong!']);
+        }
     }
 }

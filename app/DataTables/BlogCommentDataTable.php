@@ -24,11 +24,11 @@ class BlogCommentDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
                 if($query->status  === 1){
-                    $edit = "<a href='".route('admin.slider.edit',$query->id)."' class='btn btn-success'><i class='fas fa-eye'></i></a>";
+                    $edit = "<a href='".route('admin.blog.comments.update',$query->id)."' class='btn btn-success'><i class='fas fa-eye'></i></a>";
                 }else{
-                    $edit = "<a href='".route('admin.slider.edit',$query->id)."' class='btn btn-warning'><i class='fas fa-eye-slash'></i></a>";
+                    $edit = "<a href='".route('admin.blog.comments.update',$query->id)."' class='btn btn-warning'><i class='fas fa-eye-slash'></i></a>";
                 }
-                $delete = "<a href='".route('admin.slider.destroy',$query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
+                $delete = "<a href='".route('admin.blog.comments.delete',$query->id)."' class='btn btn-danger delete-item ml-2'><i class='fas fa-trash'></i></a>";
 
                 return $edit.$delete;
             })->addColumn('blog',function($query){
@@ -66,7 +66,7 @@ class BlogCommentDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     //->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(0)
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),

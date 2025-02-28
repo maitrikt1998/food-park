@@ -51,7 +51,10 @@ class FrontendController extends Controller
         $appSection = AppDownloadSection::first();
         $testimonials = Testimonial::where(['show_at_home' => 1, 'status' => 1])->get();
         $counter = Counter::first();
-        return view('frontend.home.index',compact('sliders','sectionTitles', 'whyChooseUs', 'categories','dailyOffers','bannerSliders','chefs','appSection','testimonials','counter'));
+        $latestBlogs = Blog::withCount(['comments'=> function($query){
+            $query->where('status', 1);
+        }])->with(['user','category'])->where(['status' => 1])->latest()->take(3)->get();
+        return view('frontend.home.index',compact('sliders','sectionTitles', 'whyChooseUs', 'categories','dailyOffers','bannerSliders','chefs','appSection','testimonials','counter','latestBlogs'));
     }
 
     function getSectionTitle() : Collection
@@ -85,15 +88,34 @@ class FrontendController extends Controller
         return view('frontend.pages.testimonial',compact('testimonials'));
     }
 
-    function blogs() : View
+    function blogs(Request $request) : View
     {
-        $blogs = Blog::with(['user','category'])->where('status', 1)->latest()->paginate(9);
-        return view('frontend.pages.blog',compact('blogs'));
+        $blogs = Blog::withCount(['comments' => function($query){
+            $query->where('status', 1);
+        }])->with(['user','category'])->where('status', 1);
+
+        if($request->has('search') && $request->filled('search')){
+            $blogs->where(function($query) use($request){
+                $query->where('title','like','%'.$request->search.'%')
+                ->orWhere('description','like','%'.$request->search.'%');
+            });
+        }
+
+        if($request->has('category') && $request->filled('category')){
+            $blogs->whereHas('category', function($query) use($request){
+                $query->where('slug', $request->category);
+            });
+        }
+
+        $blogs = $blogs->latest()->paginate(9);
+        $categories = BlogCategory::where('status',1)->get();
+        return view('frontend.pages.blog',compact('blogs','categories'));
     }
 
     function blogDetails(string $slug) : View
     {
-        $blog = Blog::with(['user','category'])->where('slug', $slug)->where('status', 1)->firstOrFail();
+        $blog = Blog::with(['user'])->where('slug', $slug)->where('status', 1)->firstOrFail();
+        $comments = $blog->comments()->where('status', 1)->orderBy('id','DESC')->paginate(20);
         $latestBlogs = Blog::select('id','slug','title','created_at','image')->where('status', 1)
                         ->where('id','!=',$blog->id)->latest()->take(5)->get();
         $categories = BlogCategory::withCount(['blogs'=> function($query){
@@ -102,7 +124,7 @@ class FrontendController extends Controller
 
         $previousBlog = Blog::select('id','slug','title','image')->where('id','<',$blog->id)->orderBy('id','ASC')->first();
         $nextBlog = Blog::select('id','slug','title','image')->where('id','>',$blog->id)->orderBy('id','DESC')->first();
-        return view('frontend.pages.blog-details',compact('blog','latestBlogs','categories','previousBlog','nextBlog'));
+        return view('frontend.pages.blog-details',compact('blog','latestBlogs','categories','previousBlog','nextBlog', 'comments'));
     }
 
     function blogCommentStore(Request $request, String $blog_id): RedirectResponse

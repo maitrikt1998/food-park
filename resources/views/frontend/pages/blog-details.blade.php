@@ -99,48 +99,16 @@
                     </ul>
 
                     <div class="fp__comment mt_100 xs_mt_70 wow fadeInUp" data-wow-duration="1s">
-                        <h4>03 Comments</h4>
-                        <div class="fp__single_comment m-0 border-0">
-                            <img src="images/comment_img_1.png" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>Michel Holder <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
+                        <h4>{{ count($comments) }} Comments</h4>
+                        @foreach ($comments as $comment)
+                            <div class="fp__single_comment m-0 border-0">
+                                <img src="{{ asset($comment->user->avatar) }}" alt="review" class="img-fluid">
+                                <div class="fp__single_comm_text">
+                                    <h3>{{ $comment->user->name }} <span>{{ date('d M Y', strtotime($comment->created_at)) }}</span></h3>
+                                    <p>{{ $comment->comment }}</p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="fp__single_comment">
-                            <img src="images/chef_1.jpg" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>salina khan <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
-                            </div>
-                        </div>
-                        <div class="fp__single_comment replay">
-                            <img src="images/comment_img_2.png" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>Mouna Sthesia <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
-                            </div>
-                        </div>
-                        <div class="fp__single_comment">
-                            <img src="images/chef_3.jpg" alt="review" class="img-fluid">
-                            <div class="fp__single_comm_text">
-                                <h3>marjan janifar <span>29 oct 2022 </span></h3>
-                                <p>Sure there isn't anything embarrassing hiidden in the
-                                    middles of text. All erators on the Internet
-                                    tend to repeat predefined chunks</p>
-                                <a href="#">Reply <i class="fas fa-reply-all"></i></a>
-                            </div>
-                        </div>
-                        <a href="#" class="load_more">load More</a>
+                        @endforeach
                     </div>
 
                     <div class="comment_input mt_100 xs_mt_70 wow fadeInUp" data-wow-duration="1s">
@@ -166,8 +134,8 @@
                     <div id="sticky_sidebar">
                         <div class="fp__blog_search blog_sidebar m-0 wow fadeInUp" data-wow-duration="1s">
                             <h3>Search</h3>
-                            <form>
-                                <input type="text" placeholder="Search">
+                            <form action="{{ route('blogs') }}">
+                                <input type="text" placeholder="Search" name="search">
                                 <button type="submit"><i class="fas fa-search"></i></button>
                             </form>
                         </div>
@@ -191,7 +159,7 @@
                             <h3>Categories</h3>
                             <ul>
                                 @foreach ($categories as $category)
-                                    <li><a href="#">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
+                                    <li><a href="{{ route('blogs', ['category' => $category->slug]) }}">{{ $category->name }} <span>{{ $category->blogs_count }}</span></a></li>
 
                                 @endforeach
 
