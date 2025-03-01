@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\PaymentGatewaySettingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\AdminDashboardController;
+use App\Http\Controllers\Admin\AdminManagementController;
 use App\Http\Controllers\Admin\AppDownloadSectionController;
 use App\Http\Controllers\Admin\BannerSliderController;
 use App\Http\Controllers\Admin\BlogCategoryController;
@@ -71,6 +72,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
      /** Product option Routes */
      Route::resource('product-option', ProductOptionController::class);
+
+     /** Admin Management Routes */
+     Route::resource('admin-management', AdminManagementController::class);
 
      /** Product Review Routes */
      Route::get('product-reviews',[ProductReviewController::class, 'index'])->name('product-reviews.index');

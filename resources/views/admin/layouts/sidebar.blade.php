@@ -92,6 +92,7 @@
             <li class="menu-header">Starter</li>
             <li><a class="nav-link" href="{{ route('admin.slider.index') }}"><i class="far fa-square"></i> <span>Slider</span></a></li>
             <li><a class="nav-link" href="{{ route('admin.daily-offer.index') }}"><i class="far fa-square"></i> <span>Daily Offer</span></a></li>
+            <li><a class="nav-link" href="{{ route('admin.admin-management.index') }}"><i class="far fa-square"></i> <span>Admin Management</span></a></li>
 
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
@@ -125,8 +126,9 @@
                 </ul>
             </li>
 
+            @if(auth()->user()->id == 1)
             <li><a class="nav-link" href="{{ route('admin.chat.index') }}"><i class="far fa-square"></i> <span>Messages</span></a></li>
-
+            @endif
             <li><a class="nav-link" href="{{ route('admin.news-letter.index') }}"><i class="far fa-square"></i> <span>News Letter</span></a></li>
 
             <li class="dropdown">
