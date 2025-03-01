@@ -111,6 +111,7 @@
                 <ul class="dropdown-menu">
                     <li><a class="nav-link" href="{{ route('admin.category.index') }}">Product Categories</a></li>
                     <li><a class="nav-link" href="{{ route('admin.product.index') }}">Products</a></li>
+                    <li><a class="nav-link" href="{{ route('admin.product-reviews.index') }}">Product Rating</a></li>
                 </ul>
             </li>
 
@@ -154,10 +155,13 @@
 
             <li><a class="nav-link" href="{{ route('admin.social-link.index') }}"><i class="far fa-square"></i> <span>Social Links</span></a></li>
 
+            <li><a class="nav-link" href="{{ route('admin.menu-builder.index') }}"><i class="far fa-square"></i> <span>Menu Builder</span></a></li>
+
             <li class="dropdown">
                 <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-columns"></i>
                     <span>Pages</span></a>
                 <ul class="dropdown-menu">
+                    <li><a class="nav-link" href="{{ route('admin.custom-page-builder.index') }}">Custom Page</a></li>
                     <li><a class="nav-link" href="{{ route('admin.about.index') }}">About</a></li>
                     <li><a class="nav-link" href="{{ route('admin.privacy-policy.index') }}">Privacy Policy</a></li>
                     <li><a class="nav-link" href="{{ route('admin.terms-and-condition.index') }}">Terms & Condition</a></li>

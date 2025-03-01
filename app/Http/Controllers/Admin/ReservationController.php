@@ -23,7 +23,7 @@ class ReservationController extends Controller
         $reservation = Reservation::findOrFail($request->id);
         $reservation->status = $request->status;
         $reservation->save();
-        return response()->json(['success' => true, 'message'=> 'updated successfully']);
+        return response(['success' => true, 'message'=> 'updated successfully']);
     }
 
     function destroy(String $id)

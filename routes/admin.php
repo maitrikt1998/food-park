@@ -26,6 +26,7 @@ use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DailyOfferController;
 use App\Http\Controllers\Admin\FooterInfoController;
+use App\Http\Controllers\Admin\MenuBuilderController;
 use App\Http\Controllers\Admin\NewsLetterController;
 use App\Http\Controllers\Admin\PrivacyPolicyController;
 use App\Http\Controllers\Admin\ReservationController;
@@ -33,7 +34,10 @@ use App\Http\Controllers\Admin\ReservationTimeController;
 use App\Http\Controllers\Admin\SocialLinkController;
 use App\Http\Controllers\Admin\TermsAndConditionController;
 use App\Http\Controllers\Admin\TestimonialController;
+use App\Http\Controllers\Admin\CustomPageBuilderController;
+use App\Http\Controllers\Admin\ProductReviewController;
 use App\Models\SocialLink;
+use Efectn\Menu\Facades\Menu;
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
@@ -67,6 +71,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
 
      /** Product option Routes */
      Route::resource('product-option', ProductOptionController::class);
+
+     /** Product Review Routes */
+     Route::get('product-reviews',[ProductReviewController::class, 'index'])->name('product-reviews.index');
+     Route::post('product-reviews',[ProductReviewController::class, 'updateStatus'])->name('product-reviews.update');
+     Route::delete('product-reviews/{id}',[ProductReviewController::class, 'destroy'])->name('product-reviews.destroy');
 
      /** Coupon Routes */
      Route::resource('coupon', CouponController::class);
@@ -154,6 +163,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::get('footer-info', [FooterInfoController::class,'index'])->name('footer-info.index');
     Route::put('footer-info', [FooterInfoController::class,'update'])->name('footer-info.update');
 
+    /** Menu builder Routes */
+    Route::get('menu-builder', [MenuBuilderController::class,'index'])->name('menu-builder.index');
+    Route::resource('custom-page-builder', CustomPageBuilderController::class);
      /** News Letter  Routes */
      Route::get('news-letter', [NewsLetterController::class,'index'])->name('news-letter.index');
      Route::post('news-letter', [NewsLetterController::class,'sendNewsLetter'])->name('news-letter.send');

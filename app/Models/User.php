@@ -50,4 +50,9 @@ class User extends Authenticatable
         return $this->hasMany(Chat::class,'sender_id', 'id')
             ->orWhere('receiver_id', $this->id);
     }
+
+    function orders()
+    {
+        return $this->hasMany(Order::class,'order_id', 'id');
+    }
 }

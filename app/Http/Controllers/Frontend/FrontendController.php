@@ -20,6 +20,7 @@ use App\Models\PrivacyPolicy;
 use Illuminate\Http\Request;
 use App\Models\Slider;
 use App\Models\Product;
+use App\Models\ProductRating;
 use App\Models\Reservation;
 use App\Models\SectionTitle;
 use App\Models\TermsAndCondition;
@@ -245,18 +246,85 @@ class FrontendController extends Controller
         return response(['status' => 'success', 'message' => 'Reservation send Successfully!']);
     }
 
+    function products(Request $request) : View
+    {
+
+        $products = Product::where(['status' => 1])->orderBy('id','DESC');
+
+        if($request->has('search') && $request->filled('search')){
+            $products->where(function($query) use($request){
+                $query->where('name','like','%'.$request->search.'%')
+                ->orWhere('long_description','like','%'.$request->search.'%');
+            });
+        }
+
+        if($request->has('category') && $request->filled('category')){
+            $products->whereHas('category', function($query) use($request){
+                $query->where('slug', $request->category);
+            });
+        }
+
+        $products->withAvg('reviews', 'rating')
+            ->withCount('reviews')->paginate(12);
+
+        $categories = Category::where('status', 1)->get();
+        return view('frontend.pages.products', compact('products','categories'));
+    }
     function showProduct(string $slug) : View
     {
         $product = Product::with(['productImages', 'productSize', 'productOption'])
-            ->where(['slug' => $slug, 'status' => 1])->firstOrFail();
+            ->where(['slug' => $slug, 'status' => 1])
+            ->withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->firstOrFail();
         $relatedProducts = Product::where('category_id', $product->category_id)
-            ->where('id', '!=', $product->id)->take(8)->latest()->get();
-        return view('frontend.pages.product-view',compact('product','relatedProducts'));
+            ->where('id', '!=', $product->id)
+            ->withAvg('reviews','rating')
+            ->withCount('reviews')
+            ->take(8)->latest()->get();
+        $reviews = ProductRating::where(['product_id' => $product->id, 'status' => 1])->paginate(30);
+        return view('frontend.pages.product-view',compact('product', 'relatedProducts', 'reviews'));
     }
 
     function loadProductModal($productId){
         $product = Product::with(['productSize','productOption'])->findOrFail($productId);
         return view('frontend.layouts.ajax-files.product-popup-modal',compact('product'))->render();
+    }
+
+    function productReviewStore(Request $request)
+    {
+        $request->validate([
+            'rating' => ['required', 'min:1', 'max:5', 'integer'],
+            'review' => ['required', 'max:500'],
+            'product_id' => ['required' , 'integer']
+        ]);
+
+        $user = Auth::user();
+
+        $hasPurchased = $user->orders()->whereHas('orderItems',function($query) use($request){
+            $query->where('product_id',$request->product_id);
+        })->where('order_status','delivered')->get();
+
+        if(count($hasPurchased) == 0){
+            throw ValidationException::withMessages(['Please Buy The Product Before Submit a Review!']);
+        }
+
+        $alreadyReviewed =  ProductRating::where(['user_id' =>  $user->id, 'product_id' => $request->product_id])->exists();
+
+        if($alreadyReviewed){
+            throw ValidationException::withMessages(['You already Reviewed this product!']);
+        }
+
+        $review = new ProductRating();
+        $review->user_id = $user->id;
+        $review->product_id = $request->product_id;
+        $review->rating = $request->rating;
+        $review->review = $request->review;
+        $review->status = 0;
+        $review->save();
+
+        toastr()->success("Review added successfully and waiting to approve!");
+        return redirect()->back();
     }
 
     function applyCoupon(Request $request){

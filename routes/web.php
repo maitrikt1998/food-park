@@ -6,6 +6,7 @@ use App\Http\Controllers\Frontend\CheckoutController;
 use App\Http\Controllers\Admin\CouponController;
 use App\Http\Controllers\Frontend\CartController;
 use App\Http\Controllers\Frontend\ChatController;
+use App\Http\Controllers\Frontend\CustomPageController;
 use App\Http\Controllers\Frontend\DashboardController;
 use App\Http\Controllers\Frontend\FrontendController;
 use App\Http\Controllers\Frontend\PaymentController;
@@ -75,11 +76,21 @@ Route::post('/reservation', [FrontendController::class, 'reservation'])->name('r
 
 /** Newsletter Routes */
 Route::post('/subscribe-newsletter', [FrontendController::class, 'subscribeNewsletter'])->name('subscribe-newsletter');
+
+/**Custom Page Routes */
+Route::get('/page/{slug}', CustomPageController::class);
+
+/** Show Product detail page */
+Route::get('/products', [FrontendController::class, 'products'])->name('products.index');
+
 /** Show Product detail page */
 Route::get('/product/{slug}', [FrontendController::class, 'showProduct'])->name('product.show');
 
 /** Product Modal Route */
 Route::get('/load-product-modal/{productId}',[FrontendController::class, 'loadProductModal'])->name('load-product-modal');
+
+/** Product Review Route */
+Route::post('product-review',[FrontendController::class,'productReviewStore'])->name('product-review.store');
 
 /** Add to Cart Route */
 Route::post("add-to-cart",[CartController::class,'addToCart'])->name('add-to-cart');

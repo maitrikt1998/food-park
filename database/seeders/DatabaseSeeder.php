@@ -26,6 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CategorySeeder::class);
         \App\Models\Product::factory(10)->create();
         \App\Models\Coupon::factory(10)->create();
-
+        $this->call(MenuBuilderSeeder::class);
     }
 }
