@@ -20,7 +20,7 @@
 
                 <div class="form-group">
                     <label>Content</label>
-                    <textarea name="content" class="summernote form-control">{!! $terms_condition->content !!}</textarea>
+                    <textarea name="content" class="summernote form-control">{!! @$terms_condition->content !!}</textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Update</button>
             </form>

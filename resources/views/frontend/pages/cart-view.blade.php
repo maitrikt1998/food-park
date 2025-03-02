@@ -4,7 +4,7 @@
 <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
+    <section class="fp__breadcrumb" style="background: url({{ asset(config('settings.breadcumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -117,7 +117,7 @@
                             @else
                                 {{ config('settings.site_currency_icon') }} 0.00
                             @endif
-                        
+
                         </span></p>
                         <p class="total"><span>total:</span> <span id="final_total">
                             @if(isset(session()->get('coupon')['discount']))
@@ -143,7 +143,7 @@
                             </div>
                         @endif
                         </div>
-                       
+
                         <a class="common_btn" href="{{ route('checkout.index') }}">checkout</a>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                     inputField.closest('tr').find('.product_class_total')
                         .text("{{ currencyPosition(":productTotal") }}"
                         .replace(":productTotal",productTotal));
-                        
+
                     cartTotal = response.cart_total;
                     $('#subtotal').text("{{ config('settings.site_currency_icon') }}" + cartTotal);
 
@@ -271,7 +271,7 @@
                 }
             })
         }
-    
+
         $('#coupon_form').on('submit', function(e){
             e.preventDefault();
             let code = $("#coupon_code").val();

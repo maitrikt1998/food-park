@@ -20,7 +20,7 @@
 
                 <div class="form-group">
                     <label>Content</label>
-                    <textarea name="content" class="summernote form-control">{!! $privacy_policy->content !!}</textarea>
+                    <textarea name="content" class="summernote form-control">{!! @$privacy_policy->content !!}</textarea>
                 </div>
 
 

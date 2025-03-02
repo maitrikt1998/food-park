@@ -4,7 +4,7 @@
     <!--=============================
             BREADCRUMB START
         ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg'); }}">
+    <section class="fp__breadcrumb" style="background: url({{ asset(config('settings.breadcumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -83,16 +83,17 @@
                 </div>
                 @endforeach
 
-                @if(count($products) == 0 )
+
+                @if(count(@$products) == 0 )
                     <h4 class="text-center">No Product Found!!</h4>
                 @endif
 
             </div>
-            @if ($products->hasPages())
+            @if (@$products->hasPages())
             <div class="fp__pagination mt_60">
                 <div class="row">
                     <div class="col-12">
-                        {{ $products->links() }}
+                        {{ @$products->links() }}
 
                     </div>
                 </div>

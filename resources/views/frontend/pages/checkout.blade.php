@@ -4,7 +4,7 @@
 <!--=============================
         BREADCRUMB START
     ==============================-->
-<section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
+<section class="fp__breadcrumb" style="background: url({{ asset(config('settings.breadcumb')) }});">
     <div class="fp__breadcrumb_overlay">
         <div class="container">
             <div class="fp__breadcrumb_text">
@@ -51,7 +51,6 @@
                                                 <form action="{{ route('address.store') }}" method="POST">
                                                     @csrf
                                                     <div class="row">
-                                                        
 
                                                         <div class="col-md-6 col-lg-12 col-xl-12">
                                                             <div class="fp__check_single_form">
@@ -143,9 +142,6 @@
                                 </div>
                             @endforeach
                         </div>
-
-                        
-
                     </div>
                 </div>
             </div>
@@ -230,7 +226,7 @@
                     complete:function(){
                         hideLoader();
                     }
-                })  
+                })
             })
         })
     </script>

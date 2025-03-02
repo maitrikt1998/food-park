@@ -35,7 +35,7 @@ class AdminManagementController extends Controller
     {
         $request->validate([
             'name' => ['required','max:255'],
-            'email' => ['required','password', 'unique:users,email'],
+            'email' => ['required','email', 'unique:users,email'],
             'role' => ['required','in:admin'],
             'password' => ['required','confirmed','min:5'],
         ]);
@@ -75,7 +75,7 @@ class AdminManagementController extends Controller
 
         $request->validate([
             'name' => ['required','max:255'],
-            'email' => ['required','password', 'unique:users,email,'.$id],
+            'email' => ['required','email', 'unique:users,email,'.$id],
             'role' => ['required','in:admin'],
         ]);
 

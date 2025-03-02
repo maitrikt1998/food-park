@@ -4,7 +4,7 @@
 <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background:url({{ asset('frontend/images/counter_bg.jpg') }});">
+    <section class="fp__breadcrumb" style="background:url({{ asset(config('settings.breadcumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -54,7 +54,7 @@
                         <h2>{!! $product->name !!}</h2>
                         @if($product->revies_avg_rating)
                             <p class="rating">
-                                @for ($product->revies_avg_rating)
+                                @for($i = 1; $i <= $product->revies_avg_rating; $i++)
                                     <i class="fas fa-star"></i>
                                 @endfor
                                 <span>{{ $product->reviews_count }}</span>
@@ -252,7 +252,7 @@
                                     <div class="fp__menu_item_text">
                                         @if($relatedProduct->revies_avg_rating)
                                             <p class="rating">
-                                                @for ($relatedProduct->revies_avg_rating)
+                                                @for($i = 1; $i <= $relatedProduct->revies_avg_rating; $i++)
                                                     <i class="fas fa-star"></i>
                                                 @endfor
                                                 <span>{{ $relatedProduct->reviews_count }}</span>

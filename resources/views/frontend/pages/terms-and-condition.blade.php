@@ -4,7 +4,7 @@
     <!--=============================
         BREADCRUMB START
     ==============================-->
-    <section class="fp__breadcrumb" style="background: url({{ asset('frontend/images/counter_bg.jpg') }});">
+    <section class="fp__breadcrumb" style="background: url({{ asset(config('settings.breadcumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
@@ -30,7 +30,7 @@
             <div class="row">
                 <div class="col-xl-12 wow fadeInUp" data-wow-duration="1s">
                     <div class="fp__career_det_text">
-                        {!! $terms_condition->content !!}
+                        {!! @$terms_condition->content !!}
                     </div>
 
                 </div>

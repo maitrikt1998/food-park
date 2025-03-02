@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-  <title>General Dashboard &mdash; Stisla</title>
+  <title>{{ config('settings.site_name') }} | Dashboard</title>
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap/css/bootstrap.min.css') }}">
@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/summernote/summernote-bs4.css') }}">
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.min.css">
   <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('admin/assets/css/style.css') }}">
@@ -46,7 +48,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+          Copyright &copy; {{ date('Y') }} <div class="bullet"></div> Design By <a href="https://foodpark.in/">Food Park</a>
         </div>
         <div class="footer-right">
 
@@ -76,6 +78,8 @@
   <script src="{{ asset('/admin/assets/js/scripts.js') }}"></script>
   <script src="{{ asset('/admin/assets/js/custom.js') }}"></script>
   <script src="{{ asset('/admin/assets/modules/bootstrap-timepicker/js/bootstrap-timepicker.min.js') }}"></script>
+  <script src="{{ asset('/admin/assets/modules/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.min.js') }}"></script>
+  <script src="{{ asset('/admin/assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
 
   <script>
     @if ($errors->any())
@@ -95,14 +99,6 @@
             no_label: false,                // Default: false
             success_callback: null          // Default: null
         });
-        // $(".inputtags").tagsinput('items');
-
-        //set a csrf token
-        // $.ajaxSetup({
-        //     headers: {
-        //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //     }
-        // });
 
         $(document).ready(function(){
           $('body').on('click', '.delete-item', function(e){
@@ -136,11 +132,6 @@
                     console.log(error);
                   }
                 });
-                // Swal.fire({
-                //   title: "Deleted!",
-                //   text: "Your file has been deleted.",
-                //   icon: "success"
-                // });
               }
             });
           })

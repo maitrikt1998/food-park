@@ -19,18 +19,30 @@
                       <a class="nav-link active" id="home-tab4" data-toggle="tab" href="#general-setting" role="tab" aria-controls="home" aria-selected="true">General Settings</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" id="logo-tab4" data-toggle="tab" href="#logo-setting" role="tab" aria-controls="logo" aria-selected="false">Logo Settings</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="apperance-tab4" data-toggle="tab" href="#apperance-setting" role="tab" aria-controls="apperance" aria-selected="false">apperance Settings</a>
+                    </li>
+                    <li class="nav-item">
                       <a class="nav-link" id="profile-tab4" data-toggle="tab" href="#pusher-setting" role="tab" aria-controls="profile" aria-selected="false">Pusher Settings</a>
                     </li>
                     <li class="nav-item">
                       <a class="nav-link" id="contact-tab4" data-toggle="tab" href="#mail-setting" role="tab" aria-controls="contact" aria-selected="false">Mail Settings</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="contact-tab4" data-toggle="tab" href="#seo-setting" role="tab" aria-controls="contact" aria-selected="false">Seo Settings</a>
+                      </li>
                   </ul>
                 </div>
                 <div class="col-12 col-sm-12 col-md-10">
                   <div class="tab-content no-padding" id="myTab2Content">
                     @include('admin.setting.section.general-settings')
+                    @include('admin.setting.section.logo-settings')
+                    @include('admin.setting.section.apperance-settings')
                     @include('admin.setting.section.pusher-settings')
                     @include('admin.setting.section.mail-settings')
+                    @include('admin.setting.section.seo-settings')
                   </div>
                 </div>
               </div>

@@ -4,14 +4,14 @@
     <!--=============================
             BREADCRUMB START
         ==============================-->
-    <section class="fp__breadcrumb" style="background: url(images/counter_bg.jpg);">
+    <section class="fp__breadcrumb" style="background: url ({{ config('settings.breadcumb')) }});">
         <div class="fp__breadcrumb_overlay">
             <div class="container">
                 <div class="fp__breadcrumb_text">
                     <h1>user dashboard</h1>
                     <ul>
                         <li><a href="{{ url('/') }}">home</a></li>
-                        <li><a href="#">dashboard</a></li>
+                        <li><a href="javascript:;">dashboard</a></li>
                     </ul>
                 </div>
             </div>
@@ -58,19 +58,19 @@
                                     aria-controls="v-pills-reservation" aria-selected="true"><span><i
                                             class="fas fa-user"></i></span>Reservation</button>
 
-                                <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-profile" type="button" role="tab"
-                                    aria-controls="v-pills-profile" aria-selected="false"><span><i
+                                <button class="nav-link" id="v-pills-order-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-order" type="button" role="tab"
+                                    aria-controls="v-pills-order" aria-selected="true"><span><i
                                             class="fas fa-bags-shopping"></i></span> Order</button>
 
                                 <button class="nav-link" id="v-pills-wishlist" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-wishlist" type="button" role="tab"
-                                    aria-controls="v-pills-wishlist" aria-selected="false"><span><i
+                                    aria-controls="v-pills-wishlist" aria-selected="true"><span><i
                                             class="far fa-heart"></i></span> wishlist</button>
 
                                 <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill"
                                     data-bs-target="#v-pills-messages" type="button" role="tab"
-                                    aria-controls="v-pills-messages" aria-selected="false"><span><i
+                                    aria-controls="v-pills-messages" aria-selected="true"><span><i
                                             class="fas fa-star"></i></span> Reviews</button>
 
                                 @php
@@ -81,9 +81,9 @@
                                     aria-controls="v-pills-settings" aria-selected="false"><span><i
                                             class="far fa-comment-dots"></i></span> Message <b>({{ $unseenMessages > 0 ? 1 :0 }})</b></button>
 
-                                <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
-                                    data-bs-target="#v-pills-settings" type="button" role="tab"
-                                    aria-controls="v-pills-settings" aria-selected="false"><span><i
+                                <button class="nav-link" id="v-pills-changepassword-tab" data-bs-toggle="pill"
+                                    data-bs-target="#v-pills-changepassword" type="button" role="tab"
+                                    aria-controls="v-pills-changepassword" aria-selected="false"><span><i
                                             class="fas fa-user-lock"></i></span> Change Password </button>
 
                                 <form method="POST" action="{{ route('logout') }}">

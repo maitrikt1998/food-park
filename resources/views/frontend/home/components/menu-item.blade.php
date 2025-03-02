@@ -17,7 +17,6 @@
         <div class="row wow fadeInUp" data-wow-duration="1s">
             <div class="col-12">
                 <div class="menu_filter d-flex flex-wrap justify-content-center">
-                    <button class=" active" data-filter="*">all menu</button>
                     @foreach ($categories as  $category)
                         <button data-filter=".{{ $category->slug }}">{{ $category->name }}</button>
                     @endforeach
@@ -44,7 +43,7 @@
                             <div class="fp__menu_item_text">
                                 @if($product->revies_avg_rating)
                                     <p class="rating">
-                                        @for ($product->revies_avg_rating)
+                                        @for($i = 1; $i <= $product->revies_avg_rating; $i++)
                                             <i class="fas fa-star"></i>
                                         @endfor
                                         <span>{{ $product->reviews_count }}</span>
@@ -63,7 +62,7 @@
                                     <li><a href="javascript:;" onclick="loadProductModal('{{ $product->id }}')"><i
                                                 class="fas fa-shopping-basket"></i></a></li>
                                     <li onclick="addToWishlist('{{ $product->id }}')"><a href="javascript:;"><i class="fal fa-heart"></i></a></li>
-                                    <li><a href="#"><i class="far fa-eye"></i></a></li>
+                                    <li><a href="{{ route('product.show',$product->slug) }}"><i class="far fa-eye"></i></a></li>
                                 </ul>
                             </div>
                         </div>

@@ -23,6 +23,7 @@ use App\Http\Controllers\Admin\SliderController;
 use App\Http\Controllers\Admin\WhyChooseUsController;
 use App\Http\Controllers\Admin\ChatController;
 use App\Http\Controllers\Admin\ChefController;
+use App\Http\Controllers\Admin\ClearDatabaseController;
 use App\Http\Controllers\Admin\ContactController;
 use App\Http\Controllers\Admin\CounterController;
 use App\Http\Controllers\Admin\DailyOfferController;
@@ -185,6 +186,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::put('general-setting', [SettingController::class,'updateGeneralSetting'])->name('general-setting.update');
     Route::put('pusher-setting', [SettingController::class,'updatePusherSetting'])->name('pusher-setting.update');
     Route::put('mail-setting', [SettingController::class,'updateMailSetting'])->name('mail-setting.update');
+    Route::put('logo-setting', [SettingController::class,'updateLogoSetting'])->name('logo-setting.update');
+    Route::put('appearance-setting', [SettingController::class,'updateAppearanceSetting'])->name('appearance-setting.update');
+    Route::put('seo-setting', [SettingController::class,'updateSeoSetting'])->name('seo-setting.update');
+
+    Route::get('/clear-database',[ClearDatabaseController::class,'index'])->name('clear-database.index');
+    Route::post('/clear-database',[ClearDatabaseController::class,'clearDB'])->name('clear-database.destroy');
 
 
 });

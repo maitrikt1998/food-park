@@ -13,7 +13,7 @@
                             <span class="rating">
                                 @for ($i =1; $i <= $review->rating; $i++ )
                                     <i class="fal fa-star"></i>
-                                @endforeach
+                                @endfor
                             </span>
                             <p>{{ $review->review }}</p>
                             @if($review->status === 1)

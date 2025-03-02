@@ -22,7 +22,7 @@
                     <div id="image-preview" class="image-preview">
                         <label for="image-upload" id="image-label">Choose File</label>
                         <input type="file" name="background" id="image-upload" />
-                        <input type="hidden" name="background_old" id="image-upload" value="{{ $counter->background }}" />
+                        <input type="hidden" name="background_old" id="image-upload" value="{{ @$counter->background }}" />
                     </div>
                 </div>
 
@@ -107,7 +107,7 @@
     <script>
         $(document).ready(function(){
             $('.image-preview').css({
-                'background-image': 'url({{ $counter->background }})',
+                'background-image': 'url({{ @$counter->background }})',
                 'background-size': 'cover',
                 'background-position': 'center center'
             })

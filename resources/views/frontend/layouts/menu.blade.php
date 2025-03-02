@@ -4,7 +4,7 @@
 <nav class="navbar navbar-expand-lg main_menu">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">
-            <img src="{{ asset('frontend/images/logo.png') }}" alt="FoodPark" class="img-fluid">
+            <img src="{{ asset(config('settings.logo')) }}" alt="FoodPark" class="img-fluid">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -37,9 +37,9 @@
                 <li>
                     <a href="#" class="menu_search"><i class="far fa-search"></i></a>
                     <div class="fp__search_form">
-                        <form>
+                        <form method="get" action="{{ route('products.index') }}">
                             <span class="close_search"><i class="far fa-times"></i></span>
-                            <input type="text" placeholder="Search . . .">
+                            <input type="text" placeholder="Search . . ." name="search">
                             <button type="submit">search</button>
                         </form>
                     </div>
@@ -51,7 +51,7 @@
                     @$unseenMessages = \App\Models\Chat::where(['sender_id' => 1, 'receiver_id' => auth()->user()->id, 'seen' => 0 ])->count();
                 @endphp
                 <li>
-                    <a class="cart_icon message_icon">
+                    <a class="message_icon" href="{{ route('dashboard') }}">
                         <i class="fas fa-comment-alt-dots"></i>
                         <span class="unseen-message-count">{{ $unseenMessages > 0 ? 1 :0 }}</span>
                     </a>

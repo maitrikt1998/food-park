@@ -23,7 +23,10 @@ class DashboardController extends Controller
         $reservations = Reservation::where('user_id',auth()->user()->id)->get();
         $reviews = ProductRating::where('user_id',auth()->user()->id)->get();
         $wishlists = Wishlist::where('user_id',auth()->user()->id)->get();
-        return view('frontend.dashboard.index',compact('deliveryAreas','userAddresses','orders', 'reservations','reviews','wishlists'));
+        $totalOrders = Order::where('user_id', auth()->user()->id)->count();
+        $totalCompletedOrders = Order::where('user_id', auth()->user()->id)->where('order_status','delivered')->count();
+        $totalcanceledOrders = Order::where('user_id', auth()->user()->id)->where('order_status','delivered')->count();
+        return view('frontend.dashboard.index',compact('deliveryAreas','userAddresses','orders', 'reservations','reviews','wishlists','totalOrders','totalCompletedOrders','totalcanceledOrders'));
     }
 
 

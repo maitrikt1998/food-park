@@ -9,8 +9,10 @@
     @yield('og_meta_tag_section')
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>FoodPark || Restaurant Template</title>
-    <link rel="icon" type="image/png" href="{{ asset('frontend/images/favicon.png') }}">
+    <meta name="description" content="{{ config('settings.seo_description') }} ">
+    <meta name="keywords" content="{{ config('settings.seo_keyword') }} ">
+    <title>{{ config('settings.seo_title') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset(config('settings.favicon')) }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/all.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/spacing.css') }}">
@@ -25,6 +27,12 @@
     <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/responsive.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/css/custom.css') }}">
+
+    <style>
+        :root {
+            --colorPrimary: {{ config('settings.site_color') }} !important;
+        }
+    </style>
 
     <script>
         var pusherKey = "{{ config('settings.pusher_key') }}";
@@ -67,9 +75,12 @@
             <div class="row">
                 <div class="col-xl-6 col-md-8">
                     <ul class="fp__topbar_info d-flex flex-wrap">
-                        <li><a href="mailto:example@gmail.com"><i class="fas fa-envelope"></i> Unifood@gmail.com</a>
-                        </li>
-                        <li><a href="callto:123456789"><i class="fas fa-phone-alt"></i> +96487452145214</a></li>
+                        @if(!empty(config('settings.site_email')))
+                        <li><a href="mailto:{{ config('settings.site_email') }}"><i class="fas fa-envelope"></i>{{ config('settings.site_email') }}</a></li>
+                        @endif
+                        @if(!empty(config('settings.site_email')))
+                        <li><a href="callto:{{ config('settings.site_phone') }}"><i class="fas fa-phone-alt"></i> {{ config('settings.site_phone') }}</a></li>
+                        @endif
                     </ul>
                 </div>
                 @php

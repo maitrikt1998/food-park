@@ -55,7 +55,7 @@
     <script>
         $(document).ready(function(){
             $('.image-preview').css({
-                'background-image': 'url({{ asset($about->image) }})',
+                'background-image': 'url({{ asset(@$about->image) }})',
                 'background-size': 'cover',
                 'background-position': 'center center'
             })
